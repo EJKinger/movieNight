@@ -1,1 +1,1 @@
-module.exports = "It works from content.js!!!";
+module.exports = (() => "It works with Babel, ES6 ans from content.js!")();
