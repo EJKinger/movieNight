@@ -84,6 +84,28 @@ var PRODUCTS = [
   {category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
   {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
 ];
+
+var LikeButton = React.createClass({
+  getInitialState: function() {
+    return {liked: false};
+  },
+  handleClick: function(event) {
+    this.setState({liked: !this.state.liked});
+  },
+  render: function() {
+    var text = this.state.liked ? 'like' : 'haven\'t liked';
+    return (
+      <p onClick={this.handleClick}>
+        You {text} this. Click to toggle.
+      </p>
+    );
+  }
+});
+
+ReactDOM.render(
+  <LikeButton />,
+  document.getElementById('example')
+);
  
 ReactDOM.render(
     <FilterableProductTable products={PRODUCTS} />,
