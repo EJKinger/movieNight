@@ -2,72 +2,90 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 
-var data = [
-  {author: "Pete Hunt", text: "This is one comment"},
-  {author: "Jordan Walke", text: "This is *another* comment"}
+var ProductCategoryRow = React.createClass({
+    render: function() {
+        return (<tr><th colSpan="2">{this.props.category}</th></tr>);
+    }
+});
+
+var ProductRow = React.createClass({
+    render: function() {
+        var name = this.props.product.stocked ?
+            this.props.product.name :
+            <span style={{color: 'red'}}>
+                {this.props.product.name}
+            </span>;
+        return (
+            <tr>
+                <td>{name}</td>
+                <td>{this.props.product.price}</td>
+            </tr>
+        );
+    }
+});
+
+var ProductTable = React.createClass({
+    render: function() {
+        var rows = [];
+        var lastCategory = null;
+        this.props.products.forEach(function(product) {
+            if (product.category !== lastCategory) {
+                rows.push(<ProductCategoryRow category={product.category} key={product.category} />);
+            }
+            rows.push(<ProductRow product={product} key={product.name} />);
+            lastCategory = product.category;
+        });
+        return (
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>{rows}</tbody>
+            </table>
+        );
+    }
+});
+
+var SearchBar = React.createClass({
+    render: function() {
+        return (
+            <form>
+                <input type="text" placeholder="Search..." />
+                <p>
+                    <input type="checkbox" />
+                    {' '}
+                    Only show products in stock
+                </p>
+            </form>
+        );
+    }
+});
+
+var FilterableProductTable = React.createClass({
+    render: function() {
+        return (
+            <div>
+                <SearchBar />
+                <ProductTable products={this.props.products} />
+            </div>
+        );
+    }
+});
+
+
+var PRODUCTS = [
+  {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
+  {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
+  {category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
+  {category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
+  {category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
+  {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
 ];
-
  
-class CommentBox extends React.Component {
-  render () {
-    return (
-      <div className="commentBox">
-        <h1>Comments</h1>
-        <CommentList data={this.props.data} />
-        <CommentForm />
-      </div>
-    )
-  }
-}
-
-class CommentList extends React.Component {
-  render () {
-    let commentNodes = this.props.data.map( (comment) => {
-      return (
-        <div className="commentList">
-          {commentNodes}
-        </div>
-      );
-    });
-
-    return(
-      <div className="commentList">
-        <Comment author="Pete Hunt">This is one comment (from data)</Comment>
-        <Comment author="Jordan Walke">This is *another* comment (from data)</Comment>
-      </div>
-    )
-
-  }
-};
-class CommentForm extends React.Component {
-  render () {
-    return (
-      <div className="commentForm">
-        Hello, world! I am a CommentForm.
-      </div>
-    )
-  }
-};
-
-class Comment extends React.Component {
-  rawMarkup () {
-    var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
-    return { __html: rawMarkup };
-  };
-
-  render () {
-    return (
-      <div className="comment">
-        <h2 className="commentAuthor">
-          {this.props.author}
-        </h2>
-        <span dangerouslySetInnerHTML={this.rawMarkup()} />
-      </div>
-    );
-  }
-};
-
 ReactDOM.render(
-  <CommentBox data={data} />,
-  document.getElementById('content')
+    <FilterableProductTable products={PRODUCTS} />,
+    document.getElementById('content')
 );
