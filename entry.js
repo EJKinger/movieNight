@@ -1,2 +1,2 @@
 require("./style.css");
-require("./content.jsx");
+require("./content.js");
