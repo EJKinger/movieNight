@@ -27,7 +27,7 @@
  - npm install webpack -g
  - npm install webpack-dev-server -g
 
-From within the root directory:
+From within the client directory:
 
 - with `webpack --watch`, open `index.html` in browser
 - or with `webpack-dev-server`, go to `http://localhost:8080/`
