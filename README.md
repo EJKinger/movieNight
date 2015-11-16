@@ -14,8 +14,17 @@
 
 ## Requirements
 
+### Dependencies
+ - gulp
+ - gulp-sass
+ - gulp-concat
+ - gulp-minify-css
+ - gulp-rename
 
-
+### Dev Dependencies
+ - bower
+ - gulp-util
+ - shelljs
 
 
 ## Development
