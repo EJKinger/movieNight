@@ -25,6 +25,7 @@
  - bower
  - gulp-util
  - shelljs
+ 
 
 
 ## Development
