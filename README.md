@@ -25,11 +25,11 @@
  - bower
  - gulp-util
  - shelljs
- 
+
 
 
 ## Development
-
+ - From within the root directory, run `ionic serve`
 
 ### Installing Dependencies
 
