@@ -40,7 +40,7 @@ angular.module('starter.controllers', [])
   };
 
   $scope.cardSwiped = function(index) {
-    var newCard = // new card data
+    // var newCard = // new card data
     $scope.cards.push(newCard);
   };
 });
