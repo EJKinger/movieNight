@@ -45,6 +45,7 @@ angular.module('starter.controllers', [])
     var newCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
     newCard.id = Math.random();
     $scope.cards.push(angular.extend({}, newCard));
+  };
 
   $scope.cardSwipedLeft = function(index) {
     console.log('LEFT SWIPE');
@@ -54,6 +55,5 @@ angular.module('starter.controllers', [])
   $scope.cardSwipedRight = function(index) {
     console.log('RIGHT SWIPE');
     $scope.addCard();
-  };
   };
 });
