@@ -1,6 +1,5 @@
  <ion-view view-title="Movies">
    <ion-content>
-    <h1>ERIC WUZ HERE</h1>
     <td-cards>
       <td-card ng-repeat="card in cards" on-destroy="cardDestroyed($index)" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)" on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}">
         <div class="image">
