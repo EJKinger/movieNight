@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ionic.contrib.ui.tinderCards'])
 
 .controller('DashCtrl', function($scope) {})
 
@@ -27,7 +27,20 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('MoviesCtrl', function($scope) {
+.directive('noScroll', function($document) {
+
+  return {
+    restrict: 'A',
+    link: function($scope, $element, $attr) {
+
+      $document.on('touchmove', function(e) {
+        e.preventDefault();
+      });
+    }
+  };
+})
+
+.controller('CardsCtrl', function($scope, TDCardDelegate) {
   console.log('CARDS CTRL');
   var cardTypes = [
     { image: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png' },
@@ -46,12 +59,12 @@ angular.module('starter.controllers', [])
     newCard.id = Math.random();
     $scope.cards.push(angular.extend({}, newCard));
   };
-
+})
+.controller('CardCtrl', function($scope, TDCardDelegate) {
   $scope.cardSwipedLeft = function(index) {
     console.log('LEFT SWIPE');
     $scope.addCard();
   };
-
   $scope.cardSwipedRight = function(index) {
     console.log('RIGHT SWIPE');
     $scope.addCard();
