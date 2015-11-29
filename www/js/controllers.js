@@ -8,8 +8,8 @@ angular.module('starter.controllers', ['ionic.contrib.ui.tinderCards'])
   // To listen for when this page is active (for example, to refresh data),
   // listen for the $ionicView.enter event:
   //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+  $scope.$on('$ionicView.enter', function(e) {
+  });
 
   $scope.chats = Chats.all();
   $scope.remove = function(chat) {
@@ -40,7 +40,7 @@ angular.module('starter.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 })
 
-.controller('CardsCtrl', function($scope, TDCardDelegate) {
+.controller('MoviesCtrl', function($scope, TDCardDelegate) {
   console.log('CARDS CTRL');
   var cardTypes = [
     { image: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png' },
@@ -59,8 +59,6 @@ angular.module('starter.controllers', ['ionic.contrib.ui.tinderCards'])
     newCard.id = Math.random();
     $scope.cards.push(angular.extend({}, newCard));
   };
-})
-.controller('CardCtrl', function($scope, TDCardDelegate) {
   $scope.cardSwipedLeft = function(index) {
     console.log('LEFT SWIPE');
     $scope.addCard();

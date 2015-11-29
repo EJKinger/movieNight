@@ -46,7 +46,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'tab-movies': {
         templateUrl: 'templates/tab-movies.html',
-        controller: 'CardsCtrl'
+        controller: 'MoviesCtrl'
       }
     }
   })
