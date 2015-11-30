@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ionic.contrib.ui.tinderCards'])
+angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
 .controller('DashCtrl', function($scope) {})
 
