@@ -42,11 +42,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
 .controller('MoviesCtrl', function($scope, TDCardDelegate) {
   console.log('CARDS CTRL');
-  var cardTypes = [
-    { image: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png' },
-    { image: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png' },
-    { image: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png' },
-  ];
+  var cardTypes = movieData;
 
   $scope.cards = Array.prototype.slice.call(cardTypes, 0);
 
