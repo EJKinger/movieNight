@@ -20,6 +20,9 @@
  - gulp-concat
  - gulp-minify-css
  - gulp-rename
+ - firebase
+ - ionic
+ - 
 
 ### Dev Dependencies
  - bower
@@ -32,7 +35,7 @@
  - From within the root directory, run `ionic serve`
 
 ### Installing Dependencies
-
+ - From within the root directory, run `bower install`
 
 
 ## Contributing
