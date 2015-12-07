@@ -25,16 +25,16 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   $scope.settings = {
     enableFriends: true
   };
+
   $scope.login = function() {
-    console.log('starting login process');
     Auth.$authWithOAuthRedirect("facebook").then(function(authData) {
+      $scope.authData = authData;
       // User successfully logged in
     }).catch(function(error) {
       if (error.code === "TRANSPORT_UNAVAILABLE") {
         Auth.$authWithOAuthPopup("facebook").then(function(authData) {
           // User successfully logged in. We can log to the console
           // since we’re using a popup here
-          console.log('Authorization success');
           console.log(authData);
         });
       } else {
@@ -42,6 +42,23 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
         console.log(error);
       }
     });
+    Auth.$onAuth(function(authData) {
+      if (authData === null) {
+        console.log("Not logged in yet");
+      } else {
+        console.log("Logged in as", authData.uid);
+      }
+      $scope.authData = authData; // This will display the user's name in our view
+    });
+};
+
+  $scope.logout = function(){
+    Auth.$unauth();
+  };
+
+  $scope.test = function(){
+    console.log('test');
+    console.log($scope.authData);
   };
 })
 

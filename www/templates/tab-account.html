@@ -5,6 +5,7 @@
         Enable Friends
     </ion-toggle>
     </ion-list>
+
     <div ng-hide="authData" class="card" ng-click="login()">
       <button class="item">
       Log In with Facebook
@@ -15,5 +16,8 @@
         Hello {{authData.facebook.displayName}}!
       </div>
     </div>
+
+    <button ng-click="logout()">LOGOUT</button>
+    <button ng-click="test()">TEST</button>
   </ion-content>
 </ion-view>
