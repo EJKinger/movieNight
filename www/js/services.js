@@ -1,4 +1,4 @@
-angular.module('movieNight.services', [])
+angular.module('movieNight.services', ['firebase'])
 
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
@@ -47,4 +47,8 @@ angular.module('movieNight.services', [])
       return null;
     }
   };
+})
+.factory("Auth", function($firebaseAuth) {
+  var usersRef = new Firebase("https://luminous-torch-3475.firebaseio.com/users");
+  return $firebaseAuth(usersRef);
 });
