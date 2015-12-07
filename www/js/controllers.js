@@ -57,6 +57,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
       }
       $scope.authData = authData; // This will display the user's name in our view
     });
+    console.log($scope.authData);
   };
 })
 
