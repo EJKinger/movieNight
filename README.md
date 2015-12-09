@@ -37,6 +37,14 @@
 ### Installing Dependencies
  - From within the root directory, run `bower install`
 
+### Building a test version for iOS
+ - within the root directory, `ionic build ios`
+ - within XCode project 
+   - "Product" > "Archive"
+   - "Window" > "Organizer"
+     - "Export" (for ad-hoc deployment)
+   - "Window" > "Devices"
+     - Add to selected device
 
 ## Contributing
 

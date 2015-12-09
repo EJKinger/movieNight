@@ -49,15 +49,9 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 
   $scope.test = function(){
-    Auth.$onAuth(function(authData) {
-      if (authData === null) {
-        console.log("Not logged in yet");
-      } else {
-        console.log("Logged in as", authData.uid);
-      }
-      $scope.authData = authData; // This will display the user's name in our view
-    });
-    console.log($scope.authData);
+    
+
+    console.log(Auth.authData);
   };
 })
 

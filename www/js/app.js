@@ -31,13 +31,29 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-
+  //login state
+  .state('login', {
+    url: "/",
+    views: {
+      "content1": { templateUrl: "templates/tab-account.html",
+                    controller: "AccountCtrl" 
+                  },
+      "title": { template: "ACCOUNT" }
+    },
+    onEnter: ['Auth', '$location', function (Auth, $location){
+      if (Auth.isAuthenticated){
+        $location.path( "/tab" );
+      }
+    }]
+  })
   // setup an abstract state for the tabs directive
-
   .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html'
+    templateUrl: 'templates/tabs.html',
+    data: {
+      requiresLogin: true
+    }
   })
 
   // Each tab has its own nav history stack:
