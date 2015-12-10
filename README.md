@@ -15,14 +15,14 @@
 ## Requirements
 
 ### Dependencies
+ - ionic
  - gulp
  - gulp-sass
  - gulp-concat
  - gulp-minify-css
  - gulp-rename
  - firebase
- - ionic
- - 
+ - angularfire
 
 ### Dev Dependencies
  - bower
