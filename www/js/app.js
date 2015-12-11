@@ -32,10 +32,10 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
   // Each state's controller can be found in controllers.js
   $stateProvider
   //login state
-  .state('login', {
+  .state('landing', {
     url: "/",
     views: {
-      "content1": { templateUrl: "templates/tab-account.html",
+      "content1": { templateUrl: "templates/landing.html",
                     controller: "AccountCtrl" 
                   },
       "title": { template: "ACCOUNT" }
