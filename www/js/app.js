@@ -34,13 +34,14 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
   //currently not working
   //login state
   .state('landing', {
-    url: "/",
-    views: {
-      "content1": { templateUrl: "templates/landing.html",
-                    controller: "AccountCtrl" 
-                  },
-      "title": { template: "ACCOUNT" }
-    },
+    url: "/landing",
+    templateUrl: "templates/landing.html",
+    // views: {
+    //   "content1": { templateUrl: "templates/landing.html",
+    //                 controller: "AccountCtrl" 
+    //               },
+    //   "title": { template: "ACCOUNT" }
+    // },
     onEnter: ['Auth', '$location', function (Auth, $location){
       if (Auth.isAuthenticated){
         $location.path( "/tab" );
