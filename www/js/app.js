@@ -31,8 +31,8 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-  //currently not working
-  //login state
+  //currently displays, empty title div covers it.
+  //should completely cover screen (no nav bar, yes title bar)
   .state('landing', {
     url: "/landing",
     templateUrl: "templates/landing.html",
