@@ -43,9 +43,17 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     //   "title": { template: "ACCOUNT" }
     // },
     onEnter: ['Auth', '$location', function (Auth, $location){
-      if (Auth.isAuthenticated){
-        $location.path( "/tab" );
-      }
+      // if (Auth.isAuthenticated){
+      //   $location.path( "/tab" );
+      //}
+      Auth.$onAuth(function(authData) {
+        if (authData === null) {
+          console.log("Not logged in yet");
+        }
+        Auth.authData = authData; // This will display the user's name in our view
+        console.log(authData);
+      });
+      console.log('hi there');
     }]
   })
   // setup an abstract state for the tabs directive

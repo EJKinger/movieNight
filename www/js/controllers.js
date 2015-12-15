@@ -49,8 +49,6 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 
   $scope.test = function(){
-    
-
     console.log(Auth.authData);
   };
 })
