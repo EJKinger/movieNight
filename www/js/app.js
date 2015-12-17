@@ -56,6 +56,7 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
       console.log('hi there');
     }]
   })
+  
   // setup an abstract state for the tabs directive
   .state('tab', {
     url: '/tab',
