@@ -56,7 +56,7 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
       console.log('hi there');
     }]
   })
-  
+
   // setup an abstract state for the tabs directive
   .state('tab', {
     url: '/tab',
@@ -119,6 +119,6 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
 
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/landing');
 
 });
