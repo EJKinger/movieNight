@@ -21,7 +21,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope, Auth) {
+.controller('AccountCtrl', function($scope, Auth, $location) {
   $scope.settings = {
     enableFriends: true
   };
@@ -46,6 +46,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
   $scope.logout = function(){
     Auth.$unauth();
+    $location.path('/landing');
   };
 
   $scope.test = function(){
