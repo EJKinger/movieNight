@@ -53,6 +53,7 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
         }
         Auth.authData = authData; // This will display the user's name in our view
         console.log(authData);
+        $location.path('/tab/dash');
       });
       console.log('hi there');
     }]
