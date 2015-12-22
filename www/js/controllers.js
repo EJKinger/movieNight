@@ -22,6 +22,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 })
 
 .controller('AccountCtrl', function($scope, Auth, $location) {
+  $scope.authData = Auth.authData;
   $scope.settings = {
     enableFriends: true
   };
@@ -50,6 +51,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 
   $scope.test = function(){
+    //$scope.authData = Auth.authData;
     console.log(Auth.authData);
   };
 })
