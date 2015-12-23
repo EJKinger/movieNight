@@ -63,10 +63,11 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 })
 
-.controller('MoviesCtrl', function($scope, TDCardDelegate) {
-  console.log('CARDS CTRL');
-  var cardTypes = movieData;
+.controller('MoviesCtrl', function($scope, TDCardDelegate, $firebaseObject) {
+  var ref = new Firebase("https://luminous-torch-3475.firebaseio.com");
+  var obj = $firebaseObject(ref);
 
+  var cardTypes = movieData;
   $scope.cards = Array.prototype.slice.call(cardTypes, 0);
 
   $scope.cardDestroyed = function(index) {
@@ -80,10 +81,14 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
   $scope.cardSwipedLeft = function(index) {
     console.log('LEFT SWIPE');
+    obj[$scope.cards[index]] = "NOPE";
+    obj.$save();
     $scope.addCard();
   };
   $scope.cardSwipedRight = function(index) {
     console.log('RIGHT SWIPE');
+    obj[$scope.cards[index]] = "LIKE";
+    obj.$save();
     $scope.addCard();
   };
 });
