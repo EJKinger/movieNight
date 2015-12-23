@@ -30,16 +30,11 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   $scope.login = function() {
     Auth.$authWithOAuthRedirect("facebook").then(function(authData) {
       $scope.authData = authData;
-      // User successfully logged in
     }).catch(function(error) {
       if (error.code === "TRANSPORT_UNAVAILABLE") {
         Auth.$authWithOAuthPopup("facebook").then(function(authData) {
-          // User successfully logged in. We can log to the console
-          // since we’re using a popup here
-          console.log(authData);
         });
       } else {
-        // Another error occurred
         console.log(error);
       }
     });
@@ -51,7 +46,6 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 
   $scope.test = function(){
-    //$scope.authData = Auth.authData;
     console.log(Auth.authData);
   };
 })
