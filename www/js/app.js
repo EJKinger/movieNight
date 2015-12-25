@@ -37,12 +37,6 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     url: "/landing",
     templateUrl: "templates/landing.html",
     controller: 'AccountCtrl',
-    // views: {
-    //   "content1": { templateUrl: "templates/landing.html",
-    //                 controller: "AccountCtrl" 
-    //               },
-    //   "title": { template: "ACCOUNT" }
-    // },
     onEnter: ['Auth', '$location', function (Auth, $location){
       // if (Auth.isAuthenticated){
       //   $location.path( "/tab" );
