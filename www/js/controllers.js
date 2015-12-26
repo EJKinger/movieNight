@@ -30,6 +30,11 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   $scope.login = function() {
     Auth.$authWithOAuthRedirect("facebook").then(function(authData) {
       $scope.authData = authData;
+      if (authData){
+        console.log('authData');
+        console.log(authData);
+        $location.path('/tab/dash');
+      }
     }).catch(function(error) {
       if (error.code === "TRANSPORT_UNAVAILABLE") {
         Auth.$authWithOAuthPopup("facebook").then(function(authData) {
@@ -38,6 +43,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
         console.log(error);
       }
     });
+
 };
 
   $scope.logout = function(){
