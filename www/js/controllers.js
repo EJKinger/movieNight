@@ -23,18 +23,10 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
 .controller('AccountCtrl', function($scope, Auth, $location) {
   $scope.authData = Auth.authData;
-  $scope.settings = {
-    enableFriends: true
-  };
 
   $scope.login = function() {
     Auth.$authWithOAuthRedirect("facebook").then(function(authData) {
-      $scope.authData = authData;
-      if (authData){
-        console.log('authData');
-        console.log(authData);
-        $location.path('/tab/dash');
-      }
+      //controller gets reloaded and this never gets called.
     }).catch(function(error) {
       if (error.code === "TRANSPORT_UNAVAILABLE") {
         Auth.$authWithOAuthPopup("facebook").then(function(authData) {

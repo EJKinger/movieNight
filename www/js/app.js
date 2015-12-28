@@ -31,16 +31,14 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     templateUrl: "templates/landing.html",
     controller: 'AccountCtrl',
     onEnter: ['Auth', '$location', function (Auth, $location){
-      // Auth.$onAuth(function(authData) {
-      //   if (Auth.authData === null) {
-      //     console.log("Not logged in yet");
-      //   } else {
-      //     Auth.authData = authData; // This will display the user's name in our view
-      //     console.log(authData);
-      //     $location.path('/tab/dash');
-      //   }
-      // });
+      Auth.$onAuth(function(authData) {
+        if (authData){
+          Auth.authData = authData; // This will display the user's name in our view
+          $location.path('/tab/dash');
+        }
+      });
     }]
+
   })
 
   // setup an abstract state for the tabs directive
