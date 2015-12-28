@@ -31,10 +31,6 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     templateUrl: "templates/landing.html",
     controller: 'AccountCtrl',
     onEnter: ['Auth', '$location', function (Auth, $location){
-      // if (Auth.isAuthenticated){
-      //   $location.path( "/tab" );
-      //}
-
       // Auth.$onAuth(function(authData) {
       //   if (Auth.authData === null) {
       //     console.log("Not logged in yet");
