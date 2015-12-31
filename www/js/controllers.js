@@ -78,14 +78,12 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     $scope.cards.push(angular.extend({}, newCard));
   };
   $scope.cardSwipedLeft = function(index) {
-    console.log('LEFT SWIPE');
-    obj[$scope.cards[index]] = "NOPE";
+    obj[$scope.cards[index].uid] = "NOPE";
     obj.$save();
     $scope.addCard();
   };
   $scope.cardSwipedRight = function(index) {
-    console.log('RIGHT SWIPE');
-    obj[$scope.cards[index]] = "LIKE";
+    obj[$scope.cards[index].uid] = "LIKE";
     obj.$save();
     $scope.addCard();
   };
