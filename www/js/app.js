@@ -36,9 +36,13 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html',
-    data: {
-      requiresLogin: true
-    }
+    onEnter: ['Auth', '$location', function (Auth, $location){
+      Auth.$onAuth(function(authData) {
+        if (!authData){
+          $location.path('/landing');
+        }
+      });
+    }]
   })
 
   .state('tab.movies', {
