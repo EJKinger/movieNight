@@ -51,4 +51,30 @@ angular.module('movieNight.services', ['firebase'])
 .factory("Auth", function($firebaseAuth) {
   var usersRef = new Firebase("https://luminous-torch-3475.firebaseio.com/users");
   return $firebaseAuth(usersRef);
+})
+.factory("randMovie", function(){
+  function pad(number, length) {
+    var str = '' + number;
+    while(str.length < length) {
+      str = '0' + str;
+    }
+    return str;
+  }
+
+  return pad(Math.floor((Math.random() * 2155529) + 1), 7);
+})
+.factory("omdbAPI", function(){
+  
 });
+
+
+
+
+
+
+
+
+
+
+
+
