@@ -61,7 +61,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 })
 
-.controller('MoviesCtrl', function($scope, TDCardDelegate, $firebaseObject) {
+.controller('MoviesCtrl', function($scope, TDCardDelegate, $firebaseObject, omdbService) {
   var ref = new Firebase("https://luminous-torch-3475.firebaseio.com");
   var obj = $firebaseObject(ref);
 
@@ -73,8 +73,16 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 
   $scope.addCard = function() {
-    var newCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
-    newCard.id = Math.random();
+    var newId = omdbService.genID();
+    //var newCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
+
+    var newCard = {
+      uid: newId,
+      movie: "xxxx",
+      image: "http://img.omdbapi.com/?i=tt" + newId + "&apikey=" + OMDB_API + "&h=318"
+    };
+
+    //newCard.id = Math.random();
     $scope.cards.push(angular.extend({}, newCard));
   };
   $scope.cardSwipedLeft = function(index) {

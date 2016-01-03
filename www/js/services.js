@@ -63,10 +63,11 @@ angular.module('movieNight.services', ['firebase'])
   }
 
   return {
-      generateRandID: function(){
+      genID: function(){
        return pad(Math.floor((Math.random() * 2155529) + 1), 7);
     }
   };
+
 });
 
 
