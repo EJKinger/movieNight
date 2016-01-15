@@ -61,7 +61,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 })
 
-.controller('MoviesCtrl', function($scope, TDCardDelegate, $firebaseObject, omdbService) {
+.controller('MoviesCtrl', function($scope, TDCardDelegate, $firebaseObject, omdbService, $http) {
   var ref = new Firebase("https://luminous-torch-3475.firebaseio.com");
   var obj = $firebaseObject(ref);
 
@@ -79,13 +79,23 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     var newCard = {
       uid: newId,
       movie: "xxxx",
-      image: "http://img.omdbapi.com/?i=tt" + newId + "&apikey=" + OMDB_API + "&h=318"
+      image: "http://img.omdbapi.com/?i=tt" + newId + "&apikey=" + OMDB_API + "&h=318",
     };
+    $http({
+      method: 'get',
+      url: "http://www.omdbapi.com/?" + newId + "&"
+    }).then(function(res){
+      console.log(res);
+      newCard.info = res;
+    }, function(err){
+      console.log(err);
+    });
 
     //newCard.id = Math.random();
     $scope.cards.push(angular.extend({}, newCard));
   };
   $scope.cardSwipedLeft = function(index) {
+    console.log(obj[$scope.cards[index].info]);
     obj[$scope.cards[index].uid] = {seen: false};
     obj.$save();
     $scope.addCard();
