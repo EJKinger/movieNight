@@ -67,6 +67,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
   var cardTypes = movieData;
   $scope.cards = Array.prototype.slice.call(cardTypes, 0);
+  $scope.current = $scope.cards[0];
 
   $scope.cardDestroyed = function(index) {
     $scope.cards.splice(index, 1);
@@ -74,8 +75,6 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
   $scope.addCard = function() {
     var newId = omdbService.genID();
-    //var newCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
-
     var newCard = {
       uid: newId,
       movie: "xxxx",
@@ -83,19 +82,16 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     };
     $http({
       method: 'get',
-      url: "http://www.omdbapi.com/?" + newId + "&"
+      url: "http://www.omdbapi.com/?i=tt" + newId
     }).then(function(res){
-      console.log(res);
       newCard.info = res;
     }, function(err){
       console.log(err);
     });
 
-    //newCard.id = Math.random();
     $scope.cards.push(angular.extend({}, newCard));
   };
   $scope.cardSwipedLeft = function(index) {
-    console.log(obj[$scope.cards[index].info]);
     obj[$scope.cards[index].uid] = {seen: false};
     obj.$save();
     $scope.addCard();

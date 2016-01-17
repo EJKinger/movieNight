@@ -54,13 +54,13 @@ angular.module('movieNight.services', ['firebase'])
 })
 
 .factory("omdbService", function(){
-  function pad(number, length) {
+  var pad = function(number, length) {
     var str = '' + number;
     while(str.length < length) {
       str = '0' + str;
     }
     return str;
-  }
+  };
 
   return {
       genID: function(){
