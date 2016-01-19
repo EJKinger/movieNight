@@ -5,3 +5,4 @@ node_modules/
 platforms/
 plugins/
 www/test/config.js
+npm-debug.log
