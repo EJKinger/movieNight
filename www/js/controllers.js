@@ -105,17 +105,22 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
   $scope.addCard = function(newId) {
     newId = newId || listService.currentList[listService.index++];
-     console.log(listService.index);
     var newCard = {
       uid: newId,
       image: "http://img.omdbapi.com/?i=" + newId + "&apikey=" + OMDB_API + "&h=318",
     };
+
+    $scope.cards.push(newCard);
+
+    console.log(listService.index);
+
     $http({
       method: 'get',
       url: "http://www.omdbapi.com/?i=" + newId
     }).then(function(res){
-      newCard.info = res.data;
-      $scope.cards.push(angular.extend({}, newCard));
+      newCard.data = res.data;
+      //$scope.cards.push(angular.extend({}, newCard));
+      console.log($scope.cards);
     }, function(err){
       console.log(err);
     });
@@ -132,9 +137,10 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     $scope.addCard();
   };
   $scope.currentTitle = function(index){
-    return $scope.cards[index].info.data.Title;
+    return $scope.cards[index].data.Title;
   };
 
+  //maybe the order issue can be solved by adding all 1000 and only updating the data for the 10 top, idk what kind of memory this will take.
   (function addCards(){
     for (var i = listService.index; i < listService.index + 10; i++){
       $scope.addCard(listService.currentList[i]);
