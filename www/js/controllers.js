@@ -61,36 +61,66 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 })
 
-.controller('MoviesCtrl', function($scope, TDCardDelegate, $firebaseObject, omdbService, $http) {
+//res.data = {}
+// data: Object
+  // Actors: "Tim Robbins, Morgan Freeman, Bob Gunton, William Sadler"
+  // Awards: "Nominated for 7 Oscars. Another 14 wins & 20 nominations."
+  // Country: "USA"
+  // Director: "Frank Darabont"
+  // Genre: "Crime, Drama"
+  // Language: "English"
+  // Metascore: "80"
+  // Plot: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency."
+  // Poster: "http://ia.media-imdb.com/images/M/MV5BODU4MjU4NjIwNl5BMl5BanBnXkFtZTgwMDU2MjEyMDE@._V1_SX300.jpg"
+  // Rated: "R"
+  // Released: "14 Oct 1994"
+  // Response: "True"
+  // Runtime: "142 min"
+  // Title: "The Shawshank Redemption"
+  // Type: "movie"
+  // Writer: "Stephen King (short story "Rita Hayworth and Shawshank Redemption"), Frank Darabont (screenplay)"
+  // Year: "1994"
+  // imdbID: "tt0111161"
+  // imdbRating: "9.3"
+  // imdbVotes: "1,590,699"
+
+
+
+.controller('MoviesCtrl', function($scope, TDCardDelegate, $firebaseObject, omdbService, $http, listService) {
   var ref = new Firebase("https://luminous-torch-3475.firebaseio.com");
   var obj = $firebaseObject(ref);
 
-  var cardTypes = movieData;
-  $scope.cards = Array.prototype.slice.call(cardTypes, 0);
+  // var cardTypes = movieData;
+  // $scope.cards = Array.prototype.slice.call(cardTypes, 0);
+  $scope.cards = [];
+
+
+
+
   $scope.current = $scope.cards[0];
 
   $scope.cardDestroyed = function(index) {
     $scope.cards.splice(index, 1);
   };
 
-  $scope.addCard = function() {
-    var newId = omdbService.genID();
+  $scope.addCard = function(newId) {
+    newId = newId || listService.currentList[listService.index++];
+     console.log(listService.index);
     var newCard = {
       uid: newId,
-      movie: "xxxx",
-      image: "http://img.omdbapi.com/?i=tt" + newId + "&apikey=" + OMDB_API + "&h=318",
+      image: "http://img.omdbapi.com/?i=" + newId + "&apikey=" + OMDB_API + "&h=318",
     };
     $http({
       method: 'get',
-      url: "http://www.omdbapi.com/?i=tt" + newId
+      url: "http://www.omdbapi.com/?i=" + newId
     }).then(function(res){
-      newCard.info = res;
+      newCard.info = res.data;
       $scope.cards.push(angular.extend({}, newCard));
     }, function(err){
       console.log(err);
     });
-
   };
+  
   $scope.cardSwipedLeft = function(index) {
     obj[$scope.cards[index].uid] = {seen: false};
     obj.$save();
@@ -104,4 +134,12 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   $scope.currentTitle = function(index){
     return $scope.cards[index].info.data.Title;
   };
+
+  (function addCards(){
+    for (var i = listService.index; i < listService.index + 10; i++){
+      $scope.addCard(listService.currentList[i]);
+    }
+    listService.index += 10;
+  }());
+
 });
