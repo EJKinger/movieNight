@@ -90,37 +90,30 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   var ref = new Firebase("https://luminous-torch-3475.firebaseio.com");
   var obj = $firebaseObject(ref);
 
-  // var cardTypes = movieData;
-  // $scope.cards = Array.prototype.slice.call(cardTypes, 0);
   $scope.cards = [];
-
-
-
-
-  $scope.current = $scope.cards[0];
 
   $scope.cardDestroyed = function(index) {
     $scope.cards.splice(index, 1);
+    $scope.addCard();
   };
 
-  $scope.addCard = function(newId) {
+  $scope.addCard = function(newId, push) {
     newId = newId || listService.currentList[listService.index++];
     var newCard = {
       uid: newId,
       image: "http://img.omdbapi.com/?i=" + newId + "&apikey=" + OMDB_API + "&h=318",
     };
-
-    $scope.cards.push(newCard);
-
-    console.log(listService.index);
-
     $http({
       method: 'get',
       url: "http://www.omdbapi.com/?i=" + newId
     }).then(function(res){
       newCard.data = res.data;
+      if (push){
+        $scope.cards.push(newCard);
+      } else {
+        $scope.cards.unshift(newCard);
+      }
       //$scope.cards.push(angular.extend({}, newCard));
-      console.log($scope.cards);
     }, function(err){
       console.log(err);
     });
@@ -129,21 +122,18 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   $scope.cardSwipedLeft = function(index) {
     obj[$scope.cards[index].uid] = {seen: false};
     obj.$save();
-    $scope.addCard();
   };
   $scope.cardSwipedRight = function(index) {
     obj[$scope.cards[index].uid] = {seen: true};
     obj.$save();
-    $scope.addCard();
   };
   $scope.currentTitle = function(index){
     return $scope.cards[index].data.Title;
   };
 
-  //maybe the order issue can be solved by adding all 1000 and only updating the data for the 10 top, idk what kind of memory this will take.
   (function addCards(){
     for (var i = listService.index; i < listService.index + 10; i++){
-      $scope.addCard(listService.currentList[i]);
+      $scope.addCard(listService.currentList[i], true);
     }
     listService.index += 10;
   }());
