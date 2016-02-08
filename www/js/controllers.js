@@ -97,7 +97,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     $scope.addCard();
   };
 
-  $scope.addCard = function(newId, push) {
+  $scope.addCard = function(newId, push, index) {
     newId = newId || listService.currentList[listService.index++];
     var newCard = {
       uid: newId,
@@ -109,7 +109,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     }).then(function(res){
       newCard.data = res.data;
       if (push){
-        $scope.cards.push(newCard);
+        $scope.cards[index] = newCard;
       } else {
         $scope.cards.unshift(newCard);
       }
@@ -133,7 +133,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
   (function addCards(){
     for (var i = listService.index; i < listService.index + 10; i++){
-      $scope.addCard(listService.currentList[i], true);
+      $scope.addCard(listService.currentList[i], true, 9 - i);
     }
     listService.index += 10;
   }());

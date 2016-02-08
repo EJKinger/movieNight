@@ -1,4 +1,5 @@
  <ion-view view-title="Movies">
+  <h3 id="movieTitle" data-ng-bind="cards[cards.length - 1].data.Title"></h3>
   <td-cards>
     <td-card ng-repeat="card in cards" on-destroy="cardDestroyed($index)" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)" on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}">
       <div class="image">
