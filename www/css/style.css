@@ -5,7 +5,7 @@ td-cards {
 td-card {
   position: absolute;
   left: 50%;
-  margin-top: 80px;
+  margin-top: 40px;
   margin-bottom: 40px;
   margin-left: -107px;
   /*original: 214x318*/
@@ -55,4 +55,12 @@ td-card img {
   margin-top: 100px;
   margin-left: auto;
   margin-right: auto;
+}
+
+#movieTitle {
+  text-align: center;
+  height: 2em;
+  margin-right: 10px;
+  margin-left: 10px;
+  /*white-space: nowrap;*/
 }

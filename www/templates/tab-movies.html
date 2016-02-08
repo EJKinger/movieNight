@@ -1,17 +1,16 @@
  <ion-view view-title="Movies">
-  <h3 id="movieTitle" data-ng-bind="cards[cards.length - 1].data.Title"></h3>
-  <td-cards>
-    <td-card ng-repeat="card in cards" on-destroy="cardDestroyed($index)" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)" on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}">
-      <div class="image">
-        <div class="no-text">NOPE</div>
-        <img ng-src="{{card.data.Poster}}">
-        <div class="yes-text">LIKE</div>
-      </div>
+  <ion-content>
+  
+    <h3 id="movieTitle" data-ng-bind="cards[cards.length - 1].data.Title"></h3>
 
-<!--       Footer for showing movie data, currently doesn't display well. -->
-<!--       <ion-footer-bar>
-        <h3>{{card.info.data.Title}}</h3>
-      </ion-footer-bar> -->
-    </td-card>
-  </td-cards>
+    <td-cards>
+      <td-card ng-repeat="card in cards" on-destroy="cardDestroyed($index)" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)" on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}">
+        <div class="image">
+          <div class="no-text">NOPE</div>
+          <img ng-src="{{card.data.Poster}}">
+          <div class="yes-text">LIKE</div>
+        </div>
+      </td-card>
+    </td-cards>
+  </ion-content>
 </ion-view>
