@@ -89,6 +89,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 .controller('MoviesCtrl', function($scope, TDCardDelegate, $firebaseObject, omdbService, $http, listService) {
   var ref = new Firebase("https://luminous-torch-3475.firebaseio.com");
   var obj = $firebaseObject(ref);
+  var usersRef = ref.child('users');
 
   $scope.cards = [];
 
@@ -135,7 +136,9 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 
   $scope.rate = function(index, rating){
-    obj[$scope.cards[index].uid].rating = rating;
+    var uid = $scope.cards[index].uid;
+    console.log(rating);
+    obj.child(uid).update({rating: rating});
     obj.$save();
     $scope.cardDestroyed(index);
   };
