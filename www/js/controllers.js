@@ -108,6 +108,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
       url: "http://www.omdbapi.com/?i=" + newId
     }).then(function(res){
       newCard.data = res.data;
+      newCard.data.YearD = '(' + newCard.data.Year + ')';
       if (push){
         $scope.cards[index] = newCard;
       } else {
@@ -118,6 +119,8 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
       console.log(err);
     });
   };
+
+
   
   $scope.cardSwipedLeft = function(index) {
     obj[$scope.cards[index].uid] = {seen: false};
@@ -129,6 +132,12 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
   $scope.currentTitle = function(index){
     return $scope.cards[index].data.Title;
+  };
+
+  $scope.rate = function(index, rating){
+    obj[$scope.cards[index].uid].rating = rating;
+    obj.$save();
+    $scope.cardDestroyed(index);
   };
 
   (function addCards(){

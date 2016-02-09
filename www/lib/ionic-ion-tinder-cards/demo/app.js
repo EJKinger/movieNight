@@ -16,7 +16,7 @@ angular.module('starter', ['ionic', 'ionic.contrib.ui.tinderCards'])
         e.preventDefault();
       });
     }
-  };
+  }
 })
 
 .controller('CardsCtrl', function($scope, TDCardDelegate) {
@@ -34,7 +34,7 @@ angular.module('starter', ['ionic', 'ionic.contrib.ui.tinderCards'])
     var newCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
     newCard.id = Math.random();
     $scope.cards.unshift(angular.extend({}, newCard));
-  };
+  }
   
   $scope.cards = [];
   for(var i = 0; i < 3; i++) $scope.addCard();

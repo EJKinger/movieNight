@@ -6,6 +6,14 @@
   },
   "dependencies": {
     "firebase": "~2.3.2",
-    "angularfire": "~1.1.3"
+    "angularfire": "~1.1.3",
+    "ionic-ion-tinder-cards": "*",
+    "ionic": "~1.2.4",
+    "font-awesome": "~4.5.0",
+    "collide": "~0.0.4",
+    "angular-ui-router": "~0.2.18",
+    "angular-sanitize": "~1.5.0",
+    "angular-animate": "~1.5.0",
+    "angular": "~1.5.0"
   }
 }

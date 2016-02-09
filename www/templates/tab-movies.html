@@ -1,7 +1,7 @@
  <ion-view view-title="Movies">
-  <ion-content>
-  
-    <h3 id="movieTitle" data-ng-bind="cards[cards.length - 1].data.Title"></h3>
+  <ion-pane>
+
+    <h3 id="movieTitle"><span data-ng-bind="cards[cards.length - 1].data.Title"></span> <span data-ng-bind="cards[cards.length - 1].data.YearD"></span></h3>
 
     <td-cards>
       <td-card ng-repeat="card in cards" on-destroy="cardDestroyed($index)" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)" on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}">
@@ -10,7 +10,12 @@
           <img ng-src="{{card.data.Poster}}">
           <div class="yes-text">LIKE</div>
         </div>
+        <div class="rating-container">
+          <span class="rating">
+            <span class="star" ng-click="rate($index, 1)"></span><span class="star" ng-click="rate($index, 2)"></span><span class="star" ng-click="rate($index, 3)"></span><span class="star" ng-click="rate($index, 4)"></span><span class="star" ng-click="rate($index, 5)"></span>
+          </span>
+        </div>
       </td-card>
     </td-cards>
-  </ion-content>
+  </ion-pane>
 </ion-view>
