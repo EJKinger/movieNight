@@ -34,8 +34,8 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
         console.log(error);
       }
     });
-};
-
+  };
+  
   $scope.logout = function(){
     Auth.$unauth();
     $location.path('/landing');
@@ -45,6 +45,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     console.log(Auth.authData);
   };
 })
+
 
 .directive('noScroll', function($document) {
 
