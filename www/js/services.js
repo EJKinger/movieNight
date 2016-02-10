@@ -81,15 +81,3 @@ angular.module('movieNight.services', ['firebase'])
     index: index
   };
 });
-
-
-
-
-
-
-
-
-
-
-
-

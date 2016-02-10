@@ -23,7 +23,6 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
 .controller('AccountCtrl', function($scope, Auth, $location) {
   $scope.authData = Auth.authData;
-
   $scope.login = function() {
     Auth.$authWithOAuthRedirect("facebook").then(function(authData) {
       //controller gets reloaded and this never gets called.
@@ -35,7 +34,6 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
         console.log(error);
       }
     });
-
 };
 
   $scope.logout = function(){

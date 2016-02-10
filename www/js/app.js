@@ -21,6 +21,8 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     url: "/landing",
     templateUrl: "templates/landing.html",
     controller: 'AccountCtrl',
+
+    //ionic-web only
     onEnter: ['Auth', '$location', function (Auth, $location){
       Auth.$onAuth(function(authData) {
         if (authData){
@@ -32,6 +34,7 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
         }
       });
     }]
+    //end ionic-web only
 
   })
 
