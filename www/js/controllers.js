@@ -61,6 +61,18 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 })
 
+.directive('imageonload', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      element.bind('load', function() {
+        //call the function that was passed
+        scope.$apply(attrs.imageonload);
+      });
+    }
+  };
+})
+
 //res.data = {}
 // data: Object
   // Actors: "Tim Robbins, Morgan Freeman, Bob Gunton, William Sadler"
@@ -91,38 +103,59 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   var obj = $firebaseObject(ref);
   var usersRef = ref.child('users');
 
+  //holds cards and info about each card
   $scope.cards = [];
 
+  //gets info for and adds first 10 cards to dom
+  var firstTen = function(i, n){
+    var called = {0: true};
+    if (n - i === 10){
+      $scope.addCard(listService.currentList[i], firstTen(i + 1, n));
+    } else {
+      $scope.$on('nextImage', function () {
+        if (i < n && !called[i]){
+          called[i] = true;
+          $scope.addCard(listService.currentList[i], firstTen(i + 1, n));
+        }
+      });
+    }
+  };
+
+  //broadcasts nextImage event, this allows the images to be loaded synchronously
+  $scope.next = function(){
+    $scope.$broadcast('nextImage');
+  };
+
+  //removes card
   $scope.cardDestroyed = function(index) {
     $scope.cards.splice(index, 1);
     $scope.addCard();
+    console.log(index);
   };
 
-  $scope.addCard = function(newId, push, index) {
+  //adds card to back
+  $scope.addCard = function(newId, cb) {
     newId = newId || listService.currentList[listService.index++];
     var newCard = {
       uid: newId,
       image: "http://img.omdbapi.com/?i=" + newId + "&apikey=" + OMDB_API + "&h=318",
     };
+
     $http({
       method: 'get',
       url: "http://www.omdbapi.com/?i=" + newId
     }).then(function(res){
       newCard.data = res.data;
       newCard.data.YearD = '(' + newCard.data.Year + ')';
-      if (push){
-        $scope.cards[index] = newCard;
-      } else {
-        $scope.cards.unshift(newCard);
+      $scope.cards.unshift(newCard);
+      if (cb){
+        cb();
       }
-      //$scope.cards.push(angular.extend({}, newCard));
     }, function(err){
       console.log(err);
     });
   };
 
-
-  
   $scope.cardSwipedLeft = function(index) {
     obj[$scope.cards[index].uid] = {seen: false};
     obj.$save();
@@ -131,10 +164,8 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     obj[$scope.cards[index].uid] = {seen: true};
     obj.$save();
   };
-  $scope.currentTitle = function(index){
-    return $scope.cards[index].data.Title;
-  };
 
+  //saves rating to firebase and removes top card
   $scope.rate = function(index, rating){
     var uid = $scope.cards[index].uid;
     console.log(rating);
@@ -143,11 +174,14 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     $scope.cardDestroyed(index);
   };
 
-  (function addCards(){
-    for (var i = listService.index; i < listService.index + 10; i++){
-      $scope.addCard(listService.currentList[i], true, 9 - i);
-    }
-    listService.index += 10;
+  $scope.stars = function(card, index){
+    console.log(index);
+    console.log(card);
+    console.log($scope.cards[index]);
+  }
+
+  (function init(){
+    firstTen(listService.index, listService.index += 10);
   }());
 
 });

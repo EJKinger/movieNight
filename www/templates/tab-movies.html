@@ -7,10 +7,10 @@
       <td-card ng-repeat="card in cards" on-destroy="cardDestroyed($index)" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)" on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}">
         <div class="image">
           <div class="no-text">NOPE</div>
-          <img ng-src="{{card.data.Poster}}">
+          <img ng-src="{{card.data.Poster}}" imageonload="next(true)">
           <div class="yes-text">LIKE</div>
         </div>
-        <div class="rating-container">
+        <div ng-if="stars(card)" class="rating-container">
           <span class="rating">
             <span class="star" ng-click="rate($index, 5)"></span><span class="star" ng-click="rate($index, 4)"></span><span class="star" ng-click="rate($index, 3)"></span><span class="star" ng-click="rate($index, 2)"></span><span class="star" ng-click="rate($index, 1)"></span>
           </span>
