@@ -3,19 +3,21 @@
 
     <h3 id="movieTitle"><span data-ng-bind="cards[cards.length - 1].data.Title"></span> <span data-ng-bind="cards[cards.length - 1].data.YearD"></span></h3>
 
-    <td-cards>
-      <td-card ng-repeat="card in cards" on-destroy="cardDestroyed($index)" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)" on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}">
-        <div class="image">
-          <div class="no-text">NOPE</div>
-          <img ng-src="{{card.data.Poster}}" imageonload="next(true)">
-          <div class="yes-text">LIKE</div>
-        </div>
-        <div ng-if="stars(card)" class="rating-container">
-          <span class="rating">
-            <span class="star" ng-click="rate($index, 5)"></span><span class="star" ng-click="rate($index, 4)"></span><span class="star" ng-click="rate($index, 3)"></span><span class="star" ng-click="rate($index, 2)"></span><span class="star" ng-click="rate($index, 1)"></span>
-          </span>
-        </div>
-      </td-card>
-    </td-cards>
+    <div class="card-container">
+      <td-cards>
+        <td-card ng-repeat="card in cards" on-destroy="cardDestroyed($index)" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)" on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}">
+          <div class="image">
+            <div class="no-text">NOPE</div>
+            <img ng-src="{{card.data.Poster}}" imageonload="next(true)">
+            <div class="yes-text">LIKE</div>
+          </div>
+        </td-card>
+      </td-cards>
+    </div>
+    <div class="rating-container">
+      <span class="rating">
+        <span class="star" ng-click="rate(5)"></span><span class="star" ng-click="rate(4)"></span><span class="star" ng-click="rate(3)"></span><span class="star" ng-click="rate(2)"></span><span class="star" ng-click="rate(1)"></span>
+      </span>
+    </div>
   </ion-pane>
 </ion-view>

@@ -130,7 +130,6 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   $scope.cardDestroyed = function(index) {
     $scope.cards.splice(index, 1);
     $scope.addCard();
-    console.log(index);
   };
 
   //adds card to back
@@ -166,18 +165,18 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 
   //saves rating to firebase and removes top card
-  $scope.rate = function(index, rating){
-    var uid = $scope.cards[index].uid;
-    console.log(rating);
-    obj.child(uid).update({rating: rating});
-    obj.$save();
-    $scope.cardDestroyed(index);
+  $scope.rate = function(rating){
+    //var uid = $scope.cards[index].uid;
+    console.log(rating + " " + $scope.cards[$scope.cards.length - 1].data.Title);
+    // obj.child(uid).update({rating: rating});
+    // obj.$save();
+    $scope.cardDestroyed($scope.cards.length - 1);
   };
 
   $scope.stars = function(card, index){
-    console.log(index);
-    console.log(card);
-    console.log($scope.cards[index]);
+    // console.log(index);
+    // console.log(card);
+    // console.log($scope.cards[index]);
   }
 
   (function init(){
