@@ -135,24 +135,29 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   //adds card to back
   $scope.addCard = function(newId, cb) {
     newId = newId || listService.currentList[listService.index++];
-    var newCard = {
-      uid: newId,
-      image: "http://img.omdbapi.com/?i=" + newId + "&apikey=" + OMDB_API + "&h=318",
-    };
+    if (newId){
+      var newCard = {
+        uid: newId,
+        image: "http://img.omdbapi.com/?i=" + newId + "&apikey=" + OMDB_API + "&h=318",
+      };
 
-    $http({
-      method: 'get',
-      url: "http://www.omdbapi.com/?i=" + newId
-    }).then(function(res){
-      newCard.data = res.data;
-      newCard.data.YearD = '(' + newCard.data.Year + ')';
-      $scope.cards.unshift(newCard);
-      if (cb){
-        cb();
-      }
-    }, function(err){
-      console.log(err);
-    });
+      $http({
+        method: 'get',
+        url: "http://www.omdbapi.com/?i=" + newId
+      }).then(function(res){
+        newCard.data = res.data;
+        newCard.data.YearD = '(' + newCard.data.Year + ')';
+        $scope.cards.unshift(newCard);
+        if (cb){
+          cb();
+        }
+      }, function(err){
+        console.log(err);
+      });
+    } else {
+      listService.index = 0;
+      $scope.addCard();
+    }
   };
 
   $scope.cardSwipedLeft = function(index) {
