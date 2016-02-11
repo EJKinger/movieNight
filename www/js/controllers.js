@@ -49,20 +49,21 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 // })
 
 
-.controller('AccountCtrl', function($scope, $state, $q, UserService, $ionicLoading, Auth) {
+.controller('AccountCtrl', function($scope, $state, $q, UserService, $ionicLoading, Auth, $location) {
   // This is the success callback from the login method
   var fbLoginSuccess = function(response) {
     if (!response.authResponse){
       fbLoginError("Cannot find the authResponse");
       return;
+    } else {
+      $location.path('/tab/dash');
     }
 
     var authResponse = response.authResponse;
 
     getFacebookProfileInfo(authResponse)
     .then(function(profileInfo) {
-      alert(profileInfo);
-      $location.path('/tab/dash');
+      Auth.authData = profileInfo;
       // For the purpose of this example I will store user data on local storage
       // UserService.setUser({
       //   authResponse: authResponse,
@@ -71,7 +72,8 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
       //   email: profileInfo.email,
       //   picture : "http://graph.facebook.com/" + authResponse.userID + "/picture?type=large"
       // });
-      // $ionicLoading.hide();
+      $ionicLoading.hide();
+      $location.path('/landing');
       // $state.go('app.home');
     }, function(fail){
       // Fail get profile info
