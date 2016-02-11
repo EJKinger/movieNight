@@ -53,10 +53,6 @@ angular.module('movieNight.services', ['firebase'])
   return $firebaseAuth(usersRef);
 })
 
-.factory("Fire", function(Auth){
-
-})
-
 .factory("omdbService", function(){
   var pad = function(number, length) {
     var str = '' + number;

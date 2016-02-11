@@ -38,14 +38,14 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
   .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html',
-    onEnter: ['Auth', '$location', function (Auth, $location){
-      Auth.$onAuth(function(authData) {
-        if (!authData){
-          $location.path('/landing');
-        }
-      });
-    }]
+    templateUrl: 'templates/tabs.html'
+    // onEnter: ['Auth', '$location', function (Auth, $location){
+    //   Auth.$onAuth(function(authData) {
+    //     if (!authData){
+    //       $location.path('/landing');
+    //     }
+    //   });
+    // }]
   })
 
   .state('tab.movies', {

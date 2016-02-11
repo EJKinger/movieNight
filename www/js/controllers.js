@@ -49,7 +49,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 // })
 
 
-.controller('AccountCtrl', function($scope, $state, $q, UserService, $ionicLoading, Auth, $location) {
+.controller('AccountCtrl', function($scope, $state, $q, UserService, $ionicLoading, Auth) {
   // This is the success callback from the login method
   var fbLoginSuccess = function(response) {
     if (!response.authResponse){
@@ -61,21 +61,11 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     getFacebookProfileInfo(authResponse)
     .then(function(profileInfo) {
       Auth.authData = profileInfo;
-      // For the purpose of this example I will store user data on local storage
-      // UserService.setUser({
-      //   authResponse: authResponse,
-      //   userID: profileInfo.id,
-      //   name: profileInfo.name,
-      //   email: profileInfo.email,
-      //   picture : "http://graph.facebook.com/" + authResponse.userID + "/picture?type=large"
-      // });
       $ionicLoading.hide();
-      // $location.path('/tab/dash');
-      alert('here');
-      $state.go('tab');
+      $state.go('tab.dash');
     }, function(fail){
       // Fail get profile info
-      console.log('profile info fail', fail);
+      alert('profile info fail', fail);
     });
   };
 
@@ -125,14 +115,15 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
               email: profileInfo.email,
               picture : "http://graph.facebook.com/" + success.authResponse.userID + "/picture?type=large"
             });
-
-            $state.go('app.home');
+            alert('2');
+            $state.go('tab.dash');
           }, function(fail){
             // Fail get profile info
             console.log('profile info fail', fail);
           });
         }else{
-          $state.go('app.home');
+          alert('3');
+          $state.go('tab.dash');
         }
       } else {
         // If (success.status === 'not_authorized') the user is logged in to Facebook,
@@ -150,6 +141,22 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
         // FB permissions here: https://developers.facebook.com/docs/facebook-login/permissions/v2.4
         facebookConnectPlugin.login(['email', 'public_profile'], fbLoginSuccess, fbLoginError);
       }
+    });
+  };
+
+  $scope.facebookSignOut = function(){
+    $ionicLoading.show({
+      template: 'Logging out...'
+    });
+
+    // Facebook logout
+    facebookConnectPlugin.logout(function(){
+      $ionicLoading.hide();
+      $state.go('landing');
+    },
+    function(fail){
+      $ionicLoading.hide();
+      alert('logout failed', fail);
     });
   };
 })
