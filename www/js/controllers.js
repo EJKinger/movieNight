@@ -55,10 +55,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     if (!response.authResponse){
       fbLoginError("Cannot find the authResponse");
       return;
-    } else {
-      $location.path('/tab/dash');
     }
-
     var authResponse = response.authResponse;
 
     getFacebookProfileInfo(authResponse)
@@ -73,8 +70,9 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
       //   picture : "http://graph.facebook.com/" + authResponse.userID + "/picture?type=large"
       // });
       $ionicLoading.hide();
-      $location.path('/landing');
-      // $state.go('app.home');
+      // $location.path('/tab/dash');
+      alert('here');
+      $state.go('tab');
     }, function(fail){
       // Fail get profile info
       console.log('profile info fail', fail);
@@ -83,7 +81,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
   // This is the fail callback from the login method
   var fbLoginError = function(error){
-    console.log('fbLoginError', error);
+    alert('fbLoginError', error);
     $ionicLoading.hide();
   };
 
