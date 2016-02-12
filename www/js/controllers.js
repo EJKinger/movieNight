@@ -94,6 +94,10 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
   //This method is executed when the user press the "Login with facebook" button
   $scope.facebookSignIn = function() {
+    if (window.cordova.platformId == "browser") {
+      facebookConnectPlugin.browserInit(1036634036356683);
+      // version (second argument) is optional. It refers to the version of API you may want to use.
+    }
     facebookConnectPlugin.getLoginStatus(function(success){
       if(success.status === 'connected'){
         // The user is logged in and has authenticated your app, and response.authResponse supplies
