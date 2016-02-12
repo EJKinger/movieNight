@@ -43,13 +43,10 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 //     $location.path('/landing');
 //   };
 
-//   $scope.test = function(){
-//     console.log(Auth.authData);
-//   };
-// })
 
 
-.controller('AccountCtrl', function($scope, $state, $q, UserService, $ionicLoading, Auth) {
+
+.controller('AccountCtrl', function($scope, $state, $q, $ionicLoading, Auth) {
   // This is the success callback from the login method
   var fbLoginSuccess = function(response) {
     if (!response.authResponse){
@@ -60,18 +57,18 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
     getFacebookProfileInfo(authResponse)
     .then(function(profileInfo) {
-      Auth.authData = profileInfo;
+      Auth.setUser(profileInfo);
       $ionicLoading.hide();
       $state.go('tab.dash');
     }, function(fail){
       // Fail get profile info
-      alert('profile info fail', fail);
+      console.log('profile info fail', fail);
     });
   };
 
   // This is the fail callback from the login method
   var fbLoginError = function(error){
-    alert('fbLoginError', error);
+    console.log('fbLoginError', error);
     $ionicLoading.hide();
   };
 
@@ -106,27 +103,20 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
         console.log('getLoginStatus', success.status);
 
         // Check if we have our user saved
-        var user = UserService.getUser('facebook');
+        //var user = UserService.getUser('facebook');
 
-        if(!user.userID){
+        if(!Auth.getUser()){
           getFacebookProfileInfo(success.authResponse)
           .then(function(profileInfo) {
             // For the purpose of this example I will store user data on local storage
-            UserService.setUser({
-              authResponse: success.authResponse,
-              userID: profileInfo.id,
-              name: profileInfo.name,
-              email: profileInfo.email,
-              picture : "http://graph.facebook.com/" + success.authResponse.userID + "/picture?type=large"
-            });
-            alert('2');
+            Auth.setUser(profileInfo);
             $state.go('tab.dash');
           }, function(fail){
             // Fail get profile info
             console.log('profile info fail', fail);
           });
-        }else{
-          alert('3');
+        } else{
+          Auth.setUser(profileInfo);
           $state.go('tab.dash');
         }
       } else {
@@ -162,6 +152,10 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
       $ionicLoading.hide();
       alert('logout failed', fail);
     });
+  };
+
+  $scope.test = function(){
+    console.log(Auth.getUser());
   };
 })
 

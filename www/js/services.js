@@ -48,9 +48,18 @@ angular.module('movieNight.services', ['firebase'])
     }
   };
 })
-.factory("Auth", function($firebaseAuth) {
-  var usersRef = new Firebase("https://luminous-torch-3475.firebaseio.com/users");
-  return $firebaseAuth(usersRef);
+.factory("Auth", function() {
+  var user;
+  var setUser = function(user){
+    user = user;
+  };
+  var getUser = function(){
+    return user;
+  };
+  return {
+    setUser: setUser,
+    getUser: getUser
+  };
 })
 
 .factory("omdbService", function(){
@@ -80,20 +89,20 @@ angular.module('movieNight.services', ['firebase'])
     currentList: currentList,
     index: index
   };
-})
-
-.service('UserService', function() {
-  // For the purpose of this example I will store user data on ionic local storage but you should save it on a database
-  var setUser = function(user_data) {
-    window.localStorage.starter_facebook_user = JSON.stringify(user_data);
-  };
-
-  var getUser = function(){
-    return JSON.parse(window.localStorage.starter_facebook_user || '{}');
-  };
-
-  return {
-    getUser: getUser,
-    setUser: setUser
-  };
 });
+
+// .service('UserService', function() {
+//   // For the purpose of this example I will store user data on ionic local storage but you should save it on a database
+//   var setUser = function(user_data) {
+//     window.localStorage.starter_facebook_user = JSON.stringify(user_data);
+//   };
+
+//   var getUser = function(){
+//     return JSON.parse(window.localStorage.starter_facebook_user || '{}');
+//   };
+
+//   return {
+//     getUser: getUser,
+//     setUser: setUser
+//   };
+// });
