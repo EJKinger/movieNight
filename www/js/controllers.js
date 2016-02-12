@@ -21,31 +21,6 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-// .controller('AccountCtrl', function($scope, Auth, $location) {
-//   $scope.authData = Auth.authData;
-
-//   $scope.login = function() {
-//     Auth.$authWithOAuthRedirect("facebook").then(function(authData) {
-//       //controller gets reloaded and this never gets called.
-//     }).catch(function(error) {
-//       if (error.code === "TRANSPORT_UNAVAILABLE") {
-//         Auth.$authWithOAuthPopup("facebook").then(function(authData) {
-//         });
-//       } else {
-//         console.log(error);
-//       }
-//     });
-
-// };
-
-//   $scope.logout = function(){
-//     Auth.$unauth();
-//     $location.path('/landing');
-//   };
-
-
-
-
 .controller('AccountCtrl', function($scope, $state, $q, $ionicLoading, Auth) {
   // This is the success callback from the login method
   var fbLoginSuccess = function(response) {
@@ -54,7 +29,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
       return;
     }
     var authResponse = response.authResponse;
-
+    console.log(authResponse);
     getFacebookProfileInfo(authResponse)
     .then(function(profileInfo) {
       Auth.setUser(profileInfo);
@@ -76,13 +51,11 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   var getFacebookProfileInfo = function (authResponse) {
     var info = $q.defer();
 
-    facebookConnectPlugin.api('/me?fields=email,name&access_token=' + authResponse.accessToken, null,
+    facebookConnectPlugin.api('/me?fields=email,name,first_name,last_name,age_range,gender,picture&access_token=' + authResponse.accessToken, null,
       function (response) {
-        console.log(response);
         info.resolve(response);
       },
       function (response) {
-        console.log(response);
         info.reject(response);
       }
     );
@@ -102,13 +75,9 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
         // and signed request each expire
         console.log('getLoginStatus', success.status);
 
-        // Check if we have our user saved
-        //var user = UserService.getUser('facebook');
-
         if(!Auth.getUser()){
           getFacebookProfileInfo(success.authResponse)
           .then(function(profileInfo) {
-            // For the purpose of this example I will store user data on local storage
             Auth.setUser(profileInfo);
             $state.go('tab.dash');
           }, function(fail){
@@ -116,7 +85,6 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
             console.log('profile info fail', fail);
           });
         } else{
-          Auth.setUser(profileInfo);
           $state.go('tab.dash');
         }
       } else {
@@ -133,7 +101,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
         // Ask the permissions you need. You can learn more about
         // FB permissions here: https://developers.facebook.com/docs/facebook-login/permissions/v2.4
-        facebookConnectPlugin.login(['email', 'public_profile'], fbLoginSuccess, fbLoginError);
+        facebookConnectPlugin.login(['email', 'public_profile', 'user_friends'], fbLoginSuccess, fbLoginError);
       }
     });
   };

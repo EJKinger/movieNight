@@ -50,8 +50,8 @@ angular.module('movieNight.services', ['firebase'])
 })
 .factory("Auth", function() {
   var user;
-  var setUser = function(user){
-    user = user;
+  var setUser = function(userData){
+    user = userData;
   };
   var getUser = function(){
     return user;
