@@ -20,18 +20,6 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     url: "/landing",
     templateUrl: "templates/landing.html",
     controller: 'AccountCtrl'
-    // onEnter: ['Auth', '$location', function (Auth, $location){
-    //   Auth.$onAuth(function(authData) {
-    //     if (authData){
-    //       var id = authData.facebook.id;
-    //       var ref = new Firebase("https://luminous-torch-3475.firebaseio.com");
-    //       ref.child('users').set({id: authData.facebook.id});
-    //       Auth.authData = authData;
-    //       $location.path('/tab/dash');
-    //     }
-    //   });
-    //}]
-
   })
 
   .state('tab', {
