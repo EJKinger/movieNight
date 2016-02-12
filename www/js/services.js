@@ -48,19 +48,62 @@ angular.module('movieNight.services', ['firebase'])
     }
   };
 })
-.factory("Auth", function() {
+
+.factory("Fire", [function(){
+  var ref = new Firebase("https://luminous-torch-3475.firebaseio.com/data/users");
   var user;
+
+  var fireUpdateUser = function(userData){
+    var userRef = ref.child(user.id);
+    //object with data to send to firebase
+    var updateData = {
+      age_range: userData.age_range,
+      email: userData.email,
+      first_name: userData.first_name,
+      gender: userData.gender,
+      id: userData.id,
+      last_name: userData.last_name,
+      name: userData.name,
+      picture: userData.picture
+    };
+    //check if any data is undefined, if so, don't update firebase
+    for (var data in updateData){
+      if (updateData[data] === undefined){
+        delete updateData[data];
+      }
+    }
+    userRef.update(updateData);
+  };
+
   var setUser = function(userData){
     user = userData;
+    fireUpdateUser(userData);
   };
   var getUser = function(){
     return user;
   };
+
+  var updateMovie = function(movieData){
+    var movieRef = ref.child(user.id).child("movies").child(movieData.uid);
+    var updateData = {
+      uid: movieData.uid,
+      seen: movieData.seen,
+      rating: movieData.rating
+    };
+    for (var data in updateData){
+      if (updateData[data] === undefined){
+        delete updateData[data];
+      }
+    }
+    movieRef.update(updateData);
+  };
+
   return {
     setUser: setUser,
-    getUser: getUser
+    getUser: getUser,
+    updateMovie: updateMovie
   };
-})
+}])
 
 .factory("omdbService", function(){
   var pad = function(number, length) {
@@ -90,19 +133,3 @@ angular.module('movieNight.services', ['firebase'])
     index: index
   };
 });
-
-// .service('UserService', function() {
-//   // For the purpose of this example I will store user data on ionic local storage but you should save it on a database
-//   var setUser = function(user_data) {
-//     window.localStorage.starter_facebook_user = JSON.stringify(user_data);
-//   };
-
-//   var getUser = function(){
-//     return JSON.parse(window.localStorage.starter_facebook_user || '{}');
-//   };
-
-//   return {
-//     getUser: getUser,
-//     setUser: setUser
-//   };
-// });

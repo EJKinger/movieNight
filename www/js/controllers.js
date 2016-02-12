@@ -21,7 +21,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope, $state, $q, $ionicLoading, Auth) {
+.controller('AccountCtrl', function($scope, $state, $q, $ionicLoading, Fire) {
   // This is the success callback from the login method
   var fbLoginSuccess = function(response) {
     if (!response.authResponse){
@@ -32,7 +32,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     console.log(authResponse);
     getFacebookProfileInfo(authResponse)
     .then(function(profileInfo) {
-      Auth.setUser(profileInfo);
+      Fire.setUser(profileInfo);
       $ionicLoading.hide();
       $state.go('tab.dash');
     }, function(fail){
@@ -75,10 +75,10 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
         // and signed request each expire
         console.log('getLoginStatus', success.status);
 
-        if(!Auth.getUser()){
+        if(!Fire.getUser()){
           getFacebookProfileInfo(success.authResponse)
           .then(function(profileInfo) {
-            Auth.setUser(profileInfo);
+            Fire.setUser(profileInfo);
             $state.go('tab.dash');
           }, function(fail){
             // Fail get profile info
@@ -123,7 +123,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 
   $scope.test = function(){
-    console.log(Auth.getUser());
+    console.log(Fire.getUser());
   };
 })
 
@@ -152,36 +152,8 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 })
 
-//res.data = {}
-// data: Object
-  // Actors: "Tim Robbins, Morgan Freeman, Bob Gunton, William Sadler"
-  // Awards: "Nominated for 7 Oscars. Another 14 wins & 20 nominations."
-  // Country: "USA"
-  // Director: "Frank Darabont"
-  // Genre: "Crime, Drama"
-  // Language: "English"
-  // Metascore: "80"
-  // Plot: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency."
-  // Poster: "http://ia.media-imdb.com/images/M/MV5BODU4MjU4NjIwNl5BMl5BanBnXkFtZTgwMDU2MjEyMDE@._V1_SX300.jpg"
-  // Rated: "R"
-  // Released: "14 Oct 1994"
-  // Response: "True"
-  // Runtime: "142 min"
-  // Title: "The Shawshank Redemption"
-  // Type: "movie"
-  // Writer: "Stephen King (short story "Rita Hayworth and Shawshank Redemption"), Frank Darabont (screenplay)"
-  // Year: "1994"
-  // imdbID: "tt0111161"
-  // imdbRating: "9.3"
-  // imdbVotes: "1,590,699"
 
-
-
-.controller('MoviesCtrl', function($scope, TDCardDelegate, $firebaseObject, omdbService, $http, listService) {
-  var ref = new Firebase("https://luminous-torch-3475.firebaseio.com");
-  var obj = $firebaseObject(ref);
-  var usersRef = ref.child('users');
-
+.controller('MoviesCtrl', function($scope, TDCardDelegate, $firebaseObject, omdbService, $http, listService, Fire) {
   //holds cards and info about each card
   $scope.cards = [];
 
@@ -235,20 +207,24 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 
   $scope.cardSwipedLeft = function(index) {
-    obj[$scope.cards[index].uid] = {seen: false};
-    obj.$save();
+    Fire.updateMovie({
+      uid: $scope.cards[index].uid,
+      seen: false
+    });
   };
   $scope.cardSwipedRight = function(index) {
-    obj[$scope.cards[index].uid] = {seen: true};
-    obj.$save();
+    Fire.updateMovie({
+      uid: $scope.cards[index].uid,
+      seen: true
+    });
   };
 
   //saves rating to firebase and removes top card
   $scope.rate = function(rating){
-    //var uid = $scope.cards[index].uid;
-    console.log(rating + " " + $scope.cards[$scope.cards.length - 1].data.Title);
-    // obj.child(uid).update({rating: rating});
-    // obj.$save();
+    Fire.updateMovie({
+      uid: $scope.cards[$scope.cards.length - 1].uid,
+      rating: rating
+    });
     $scope.cardDestroyed($scope.cards.length - 1);
   };
 
@@ -261,5 +237,28 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   (function init(){
     firstTen(listService.index, listService.index += 10);
   }());
+
+//MOVIE DATA res.data = {}
+  //data: Object
+    // Actors: "Tim Robbins, Morgan Freeman, Bob Gunton, William Sadler"
+    // Awards: "Nominated for 7 Oscars. Another 14 wins & 20 nominations."
+    // Country: "USA"
+    // Director: "Frank Darabont"
+    // Genre: "Crime, Drama"
+    // Language: "English"
+    // Metascore: "80"
+    // Plot: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency."
+    // Poster: "http://ia.media-imdb.com/images/M/MV5BODU4MjU4NjIwNl5BMl5BanBnXkFtZTgwMDU2MjEyMDE@._V1_SX300.jpg"
+    // Rated: "R"
+    // Released: "14 Oct 1994"
+    // Response: "True"
+    // Runtime: "142 min"
+    // Title: "The Shawshank Redemption"
+    // Type: "movie"
+    // Writer: "Stephen King (short story "Rita Hayworth and Shawshank Redemption"), Frank Darabont (screenplay)"
+    // Year: "1994"
+    // imdbID: "tt0111161"
+    // imdbRating: "9.3"
+    // imdbVotes: "1,590,699"
 
 });
