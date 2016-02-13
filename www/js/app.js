@@ -43,6 +43,26 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     }
   })
 
+  // .state('tab.lists', {
+  //   url: '/movies/lists',
+  //   views: {
+  //     'tab-lists': {
+  //       templateUrl: 'templates/tab-movies.html',
+  //       controller: 'ListsCtrl'
+  //     }
+  //   }
+  // })
+
+  .state('tab.list', {
+    url: '/movies/lists/:listId',
+    views: {
+      'tab-movies': {
+        templateUrl: '/templates/movies-lists-top1000.html',
+        controller: 'ListCtrl'
+      }
+    }
+  })
+
   .state('tab.dash', {
     url: '/dash',
     views: {
@@ -52,25 +72,6 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
       }
     }
   })
-
-  .state('tab.chats', {
-      url: '/chats',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
 
   .state('tab.account', {
     url: '/account',

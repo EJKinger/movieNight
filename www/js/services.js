@@ -1,12 +1,12 @@
 angular.module('movieNight.services', ['firebase'])
 
-.factory('Chats', function() {
+.factory('Lists', function() {
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
+  var lists = [{
+    id: 'top1000',
+    name: 'Top 1000',
     lastText: 'You on your way?',
     face: 'img/ben.png'
   }, {
@@ -33,15 +33,15 @@ angular.module('movieNight.services', ['firebase'])
 
   return {
     all: function() {
-      return chats;
+      return lists;
     },
     remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
+      lists.splice(lists.indexOf(list), 1);
     },
     get: function(chatId) {
       for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
+        if (lists[i].id === parseInt(listId)) {
+          return lists[i];
         }
       }
       return null;
@@ -220,12 +220,12 @@ angular.module('movieNight.services', ['firebase'])
       console.dir(fail);
       $ionicLoading.hide();
       alert('logout failed', fail);
+      $state.go('landing');
     });
   };
 
   var test = function(){
     console.log(Fire.getUser());
-    console.dir(FBSession);
   };
 
   return {

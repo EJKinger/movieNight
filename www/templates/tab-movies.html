@@ -1,23 +1,16 @@
- <ion-view view-title="Movies">
-  <ion-pane>
+<ion-view view-title="Movies">
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="list in lists" type="item-text-wrap" href="#/tab/movies/lists/{{list.id}}">
+        <img ng-src="{{list.face}}">
+        <h2>{{list.name}}</h2>
+        <p>{{list.lastText}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
 
-    <h3 id="movieTitle"><span data-ng-bind="cards[cards.length - 1].data.Title"></span> <span data-ng-bind="cards[cards.length - 1].data.YearD"></span></h3>
-
-    <div class="card-container">
-      <td-cards>
-        <td-card ng-repeat="card in cards" on-destroy="cardDestroyed($index)" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)" on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}">
-          <div class="image">
-            <div class="no-text">NOPE</div>
-            <img ng-src="{{card.image}}" imageonload="next(true)">
-            <div class="yes-text">LIKE</div>
-          </div>
-        </td-card>
-      </td-cards>
-    </div>
-    <div class="rating-container">
-      <span class="rating">
-        <span class="star" ng-click="rate(5)"></span><span class="star" ng-click="rate(4)"></span><span class="star" ng-click="rate(3)"></span><span class="star" ng-click="rate(2)"></span><span class="star" ng-click="rate(1)"></span>
-      </span>
-    </div>
-  </ion-pane>
+        <ion-option-button class="button-assertive" ng-click="remove(list)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
 </ion-view>
