@@ -1,0 +1,10 @@
+<ion-view view-title="Rated Movies">
+  <ion-content class="padding">
+    <ion-list>
+      <ion-item ng-repeat="movie in ratedMovies">
+        <h3 data-ng-bind="movie.data.Title">HI</h3>
+        <!-- The data about the users rating is decoupled from the data about the movie -->
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

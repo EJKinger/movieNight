@@ -37,32 +37,6 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 }])
 
-.directive('noScroll', function($document) {
-
-  return {
-    restrict: 'A',
-    link: function($scope, $element, $attr) {
-
-      $document.on('touchmove', function(e) {
-        e.preventDefault();
-      });
-    }
-  };
-})
-
-.directive('imageonload', function() {
-  return {
-    restrict: 'A',
-    link: function(scope, element, attrs) {
-      element.bind('load', function() {
-        //call the function that was passed
-        scope.$apply(attrs.imageonload);
-      });
-    }
-  };
-})
-
-
 .controller('ListCtrl', function($scope, TDCardDelegate, $firebaseObject, omdbService, $http, listService, Fire) {
   //holds cards and info about each card
   $scope.cards = [];
@@ -147,7 +121,6 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   (function init(){
     firstTen(listService.index, listService.index += 10);
   }());
-
 //MOVIE DATA res.data = {}
   //data: Object
     // Actors: "Tim Robbins, Morgan Freeman, Bob Gunton, William Sadler"
@@ -170,5 +143,34 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     // imdbID: "tt0111161"
     // imdbRating: "9.3"
     // imdbVotes: "1,590,699"
+})
 
+.controller('RatedCtrl', ['$scope', 'Fire', function($scope, Fire){
+  $scope.ratedMovies = [];
+
+}])
+
+.directive('noScroll', function($document) {
+
+  return {
+    restrict: 'A',
+    link: function($scope, $element, $attr) {
+
+      $document.on('touchmove', function(e) {
+        e.preventDefault();
+      });
+    }
+  };
+})
+
+.directive('imageonload', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      element.bind('load', function() {
+        //call the function that was passed
+        scope.$apply(attrs.imageonload);
+      });
+    }
+  };
 });

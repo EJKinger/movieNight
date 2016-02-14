@@ -43,15 +43,15 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     }
   })
 
-  // .state('tab.lists', {
-  //   url: '/movies/lists',
-  //   views: {
-  //     'tab-lists': {
-  //       templateUrl: 'templates/tab-movies.html',
-  //       controller: 'ListsCtrl'
-  //     }
-  //   }
-  // })
+  .state('tab.rated', {
+    url: '/movies/rated',
+    views: {
+      'tab-movies': {
+        templateUrl: 'templates/movies-rated.html',
+        controller: 'RatedCtrl'
+      }
+    }
+  })
 
   .state('tab.list', {
     url: '/movies/lists/:listId',

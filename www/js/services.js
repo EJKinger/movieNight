@@ -7,12 +7,12 @@ angular.module('movieNight.services', ['firebase'])
   var lists = [{
     id: 'top1000',
     name: 'Top 1000',
-    lastText: 'You on your way?',
+    lastText: 'Rate the top 1000 movies of all time!',
     face: 'img/ben.png'
   }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
+    id: 'movies/rated',
+    name: 'My Movies',
+    lastText: 'See your ratings',
     face: 'img/max.png'
   }, {
     id: 2,
