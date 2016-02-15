@@ -1,26 +1,5 @@
 angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
-.controller('DashCtrl', function($scope) {})
-
-.controller('MoviesCtrl', function($scope, Lists) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  $scope.$on('$ionicView.enter', function(e) {
-  });
-
-  $scope.lists = Lists.all();
-  $scope.remove = function(list) {
-    Lists.remove(list);
-  };
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Lists) {
-  $scope.list = Lists.get($stateParams.listId);
-})
-
 .controller('AccountCtrl', ["$scope", "Auth", function($scope, Auth) {
   // This is the success callback from the login method
   
@@ -35,6 +14,26 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   $scope.test = function(){
     Auth.test();
   };
+}])
+
+.controller('DashCtrl', function($scope) {})
+
+.controller('ChatDetailCtrl', function($scope, $stateParams, Lists) {
+  $scope.list = Lists.get($stateParams.listId);
+})
+
+.controller('MoviesCtrl', ['$scope', function($scope) {
+  // With the new view caching in Ionic, Controllers are only called
+  // when they are recreated or on app start, instead of every page change.
+  // To listen for when this page is active (for example, to refresh data),
+  // listen for the $ionicView.enter event:
+  //
+  $scope.$on('$ionicView.enter', function(e) {
+  });
+}])
+
+.controller('ListsCtrl', ['$scope', 'Lists', function($scope, Lists){
+  $scope.lists = Lists.all();
 }])
 
 .controller('ListCtrl', function($scope, TDCardDelegate, $firebaseObject, omdbService, $http, listService, Fire) {

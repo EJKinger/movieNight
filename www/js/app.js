@@ -37,18 +37,18 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     url: '/movies',
     views: {
       'tab-movies': {
-        templateUrl: 'templates/tab-movies.html',
+        templateUrl: 'templates/tabs/movies.html',
         controller: 'MoviesCtrl'
       }
     }
   })
 
-  .state('tab.rated', {
-    url: '/movies/rated',
+  .state('tab.lists', {
+    url: '/movies/lists',
     views: {
       'tab-movies': {
-        templateUrl: 'templates/movies-rated.html',
-        controller: 'RatedCtrl'
+        templateUrl: '/templates/tabs/movies/lists.html',
+        controller: 'ListsCtrl'
       }
     }
   })
@@ -57,8 +57,18 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     url: '/movies/lists/:listId',
     views: {
       'tab-movies': {
-        templateUrl: '/templates/movies-lists-top1000.html',
+        templateUrl: '/templates/tabs/movies/lists/top1000.html',
         controller: 'ListCtrl'
+      }
+    }
+  })
+
+  .state('tab.rated', {
+    url: '/movies/rated',
+    views: {
+      'tab-movies': {
+        templateUrl: 'templates/tabs/movies/rated.html',
+        controller: 'RatedCtrl'
       }
     }
   })
@@ -67,7 +77,7 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     url: '/dash',
     views: {
       'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
+        templateUrl: 'templates/tabs/dash.html',
         controller: 'DashCtrl'
       }
     }
@@ -77,7 +87,7 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     url: '/account',
     views: {
       'tab-account': {
-        templateUrl: 'templates/tab-account.html',
+        templateUrl: 'templates/tabs/account.html',
         controller: 'AccountCtrl'
       }
     }
