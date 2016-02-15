@@ -36,7 +36,8 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   $scope.lists = Lists.all();
 }])
 
-.controller('ListCtrl', function($scope, TDCardDelegate, $firebaseObject, omdbService, $http, listService, Fire) {
+.controller('ListCtrl',['$scope', 'TDCardDelegate', 'listService', 'Fire', 'OMDB',
+ function($scope, TDCardDelegate, listService, Fire, OMDB) {
   //holds cards and info about each card
   $scope.cards = [];
 
@@ -74,11 +75,8 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
       image: "http://img.omdbapi.com/?i=" + newId + "&apikey=" + OMDB_API + "&h=318",
     };
 
-    $http({
-      method: 'get',
-      url: "http://www.omdbapi.com/?i=" + newId
-    }).then(function(res){
-      newCard.data = res.data;
+    OMDB.getMovie(newId).then(function(res){
+      newCard.data = res;
       newCard.data.YearD = '(' + newCard.data.Year + ')';
       $scope.cards.unshift(newCard);
       if (cb){
@@ -111,12 +109,6 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     $scope.cardDestroyed($scope.cards.length - 1);
   };
 
-  $scope.stars = function(card, index){
-    // console.log(index);
-    // console.log(card);
-    // console.log($scope.cards[index]);
-  }
-
   (function init(){
     firstTen(listService.index, listService.index += 10);
   }());
@@ -142,14 +134,17 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     // imdbID: "tt0111161"
     // imdbRating: "9.3"
     // imdbVotes: "1,590,699"
-})
+}])
 
-.controller('RatedCtrl', ['$scope', 'Fire', function($scope, Fire){
+.controller('RatedCtrl', ['$scope', 'Fire', 'OMDB', function($scope, Fire, OMDB){
   $scope.ratedMovies = [];
+  OMDB.getMovie('tt0944947').then(function(data){
+    console.log(data);
+  });
 
 }])
 
-.directive('noScroll', function($document) {
+.directive('noScroll', ['$document', function($document) {
 
   return {
     restrict: 'A',
@@ -160,9 +155,9 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
       });
     }
   };
-})
+}])
 
-.directive('imageonload', function() {
+.directive('imageonload', [function() {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
@@ -172,4 +167,4 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
       });
     }
   };
-});
+}]);

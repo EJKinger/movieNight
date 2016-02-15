@@ -1,6 +1,6 @@
 angular.module('movieNight.services', ['firebase'])
 
-.factory('Lists', function() {
+.factory('Lists', [function() {
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data
@@ -27,9 +27,9 @@ angular.module('movieNight.services', ['firebase'])
       return null;
     }
   };
-})
+}])
 
-.factory("Fire", [function(){
+.factory('Fire', [function(){
   var ref = new Firebase("https://luminous-torch-3475.firebaseio.com/data/users");
   var user = JSON.parse(localStorage.getItem("userData"));
 
@@ -86,7 +86,7 @@ angular.module('movieNight.services', ['firebase'])
   };
 }])
 
-.factory("Auth", ["$state", "$q", "$ionicLoading", "Fire", function($state, $q, $ionicLoading, Fire){
+.factory("Auth", ['$state', '$q', '$ionicLoading', 'Fire', function($state, $q, $ionicLoading, Fire){
   var loginStatus = (function(){
     var set = function(newStatus){
       localStorage.setItem("loginStatus", newStatus);
@@ -216,24 +216,28 @@ angular.module('movieNight.services', ['firebase'])
   };
 }])
 
-.factory("omdbService", function(){
-  var pad = function(number, length) {
-    var str = '' + number;
-    while(str.length < length) {
-      str = '0' + str;
-    }
-    return str;
+.factory("OMDB", ['$q', '$http', function($q, $http){
+  var getMovie = function(id){
+    return $q(function(resolve, reject){
+      $http({
+        method: 'get',
+        url: "http://www.omdbapi.com/?i=" + id + '&plot=full&r=json'
+      }).then(function(res){  
+        resolve(res.data);
+      }, function(err){
+        console.log(err);
+        reject(err);
+      });
+    });
   };
 
   return {
-      genID: function(){
-       return pad(Math.floor((Math.random() * 2155529) + 1), 7);
-    }
+    getMovie: getMovie
   };
 
-})
+}])
 
-.factory("listService", function(){
+.factory('listService', [function(){
   //when the list is selected in the list controller, the currentList will be updated
   //when movieController is loaded, it will load from the selected list.
   var currentList = top1000;
@@ -243,4 +247,4 @@ angular.module('movieNight.services', ['firebase'])
     currentList: currentList,
     index: index
   };
-});
+}]);

@@ -17,8 +17,8 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
 
   $stateProvider
   .state('landing', {
-    url: "/landing",
-    templateUrl: "templates/landing.html",
+    url: '/landing',
+    templateUrl: 'templates/landing.html',
     controller: 'AccountCtrl'
   })
 
@@ -47,7 +47,7 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     url: '/movies/lists',
     views: {
       'tab-movies': {
-        templateUrl: '/templates/tabs/movies/lists.html',
+        templateUrl: 'templates/tabs/movies/lists.html',
         controller: 'ListsCtrl'
       }
     }
@@ -57,7 +57,7 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     url: '/movies/lists/:listId',
     views: {
       'tab-movies': {
-        templateUrl: '/templates/tabs/movies/lists/top1000.html',
+        templateUrl: 'templates/tabs/movies/lists/top1000.html',
         controller: 'ListCtrl'
       }
     }
