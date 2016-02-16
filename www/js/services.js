@@ -29,7 +29,7 @@ angular.module('movieNight.services', ['firebase'])
   };
 }])
 
-.factory('Fire', [function(){
+.factory('Fire', ['OMDB', function(OMDB){
   var ref = new Firebase("https://luminous-torch-3475.firebaseio.com");
   var user = JSON.parse(localStorage.getItem("userData"));
 
@@ -86,9 +86,16 @@ angular.module('movieNight.services', ['firebase'])
 
   var getRatedMovies = function(){
     var ratedMovies = {};
-    userMoviesRef.orderByChild('seen').equalTo('true').on("child_added", function(snapshot) {
-      console.log(snapshot.key());
+    userMoviesRef.child('rated').on("child_added", function(snapshot) {
+      ratedMovies[snapshot.key()] = snapshot;
+      OMDB.getMovie(snapshot.key()).then(function(data){
+        ratedMovies[snapshot.key()].data = data;
+      }, function(err){
+        console.log(err);
+      });
+      //console.log(ratedMovies);
     });
+    return ratedMovies;
   };
 
   return {

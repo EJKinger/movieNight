@@ -140,13 +140,23 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     // imdbVotes: "1,590,699"
 }])
 
-.controller('RatedCtrl', ['$scope', 'Fire', 'OMDB', function($scope, Fire, OMDB){
-  $scope.ratedMovies = [];
-  OMDB.getMovie('tt0944947').then(function(data){
-    console.log(data);
-  });
+.controller('MyMoviesCtrl', ['$scope', function($scope){
+  $scope.categories = [
+    {title: 'Rated Movies', path: 'rated'},
+    {title: 'Watch List', path: ''},
+    {title: 'Not Interested', path: ''}
+  ];
+}])
 
-  $scope.getRatedMovies = Fire.getRatedMovies();
+.controller('RatedCtrl', ['$scope', 'Fire', 'OMDB', function($scope, Fire, OMDB){
+  $scope.ratedMovies = Fire.getRatedMovies();
+  // OMDB.getMovie('tt0944947').then(function(data){
+  //   console.log(data);
+  // });
+
+  $scope.getRatedMovies = function(){
+    console.log($scope.ratedMovies);
+  };
 
 }])
 
