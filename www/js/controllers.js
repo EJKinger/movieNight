@@ -39,11 +39,9 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 .controller('ListCtrl',['$scope', 'TDCardDelegate', 'List', 'Fire', 'OMDB', '$ionicHistory',
  function($scope, TDCardDelegate, List, Fire, OMDB, $ionicHistory) {
 
-  //$scope.$on('$ionicView.enter', function(e) {
-    if (List.index >= List.currentList.length - 1){
-      List.index = 0;
-    }
-  //});
+  if (List.index >= List.currentList.length - 1){
+    List.index = 0;
+  }
 
   //holds cards and info about each card
 
@@ -153,21 +151,21 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     // imdbVotes: "1,590,699"
 }])
 
-.controller('MyMoviesCtrl', ['$scope', function($scope){
-  $scope.categories = [
-    {title: 'Rated Movies', path: 'rated'},
-    {title: 'Watch List', path: ''},
-    {title: 'Not Interested', path: ''}
-  ];
+.controller('MyMoviesCtrl', ['$scope', 'List', function($scope, List){
+  $scope.categories = List.myLists;
+  $scope.setList = function(index){
+    List.myCurrentList = List.myLists[index];
+  };
 }])
 
-.controller('RatedCtrl', ['$scope', 'Fire', 'OMDB', function($scope, Fire, OMDB){
-  $scope.ratedMovies = Fire.getRatedMovies();
+.controller('MyListCtrl', ['$scope', 'Fire', 'OMDB', 'List', function($scope, Fire, OMDB, List){
+  $scope.movies = Fire.getMovies(List.myCurrentList.child);
+  $scope.pageTitle = List.myCurrentList.title;
   // OMDB.getMovie('tt0944947').then(function(data){
   //   console.log(data);
   // });
 
-  $scope.getRatedMovies = function(){
+  $scope.getMovies = function(){
     console.log($scope.ratedMovies);
   };
 

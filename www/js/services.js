@@ -84,25 +84,24 @@ angular.module('movieNight.services', ['firebase'])
     }
   };
 
-  var getRatedMovies = function(){
-    var ratedMovies = {};
-    userMoviesRef.child('rated').on("child_added", function(snapshot) {
-      ratedMovies[snapshot.key()] = snapshot;
+  var getMovies = function(childName){
+    var movies = {};
+    userMoviesRef.child(childName).on('child_added', function(snapshot) {
+      movies[snapshot.key()] = snapshot;
       OMDB.getMovie(snapshot.key()).then(function(data){
-        ratedMovies[snapshot.key()].data = data;
+        movies[snapshot.key()].data = data;
       }, function(err){
         console.log(err);
       });
-      //console.log(ratedMovies);
     });
-    return ratedMovies;
+    return movies;
   };
 
   return {
     setUser: setUser,
     getUser: getUser,
     updateMovie: updateMovie,
-    getRatedMovies: getRatedMovies
+    getMovies: getMovies
   };
 }])
 
@@ -261,11 +260,19 @@ angular.module('movieNight.services', ['firebase'])
 .factory('List', [function(){
   //when the list is selected in the list controller, the currentList will be updated
   //when movieController is loaded, it will load from the selected list.
+  var myLists = [
+    {title: 'Rated Movies', path: 'myList', child: 'rated'},
+    {title: 'Watch List', path: 'myList', child: 'watchList'},
+    {title: 'Not Interested', path: 'myList', child: 'notInterested'}
+  ];
+  var myCurrentList;
   var currentList = top1000;
   var index = 0;
 
   return {
     currentList: currentList,
-    index: index
+    index: index,
+    myLists: myLists,
+    myCurrentList: myCurrentList
   };
 }]);

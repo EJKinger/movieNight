@@ -1,8 +1,8 @@
-<ion-view view-title="Rated Movies">
+<ion-view view-title="SOMETHING Movies">
   <ion-content class="padding">
     <button ng-click="getRatedMovies()">TEST</button>
     <ion-list>
-      <ion-item ng-repeat="movie in ratedMovies">
+      <ion-item ng-repeat="movie in movies">
         <h3 data-ng-bind="movie.data.Title"></h3>
         <!-- The data about the users rating is decoupled from the data about the movie -->
       </ion-item>
