@@ -1,6 +1,6 @@
-<ion-view view-title="SOMETHING Movies">
+<ion-view view-title="{{pageTitle}}">
   <ion-content class="padding">
-    <button ng-click="getRatedMovies()">TEST</button>
+    <!-- <button ng-click="getRatedMovies()">TEST</button> -->
     <ion-list>
       <ion-item ng-repeat="movie in movies">
         <h3 data-ng-bind="movie.data.Title"></h3>

@@ -29,82 +29,6 @@ angular.module('movieNight.services', ['firebase'])
   };
 }])
 
-.factory('Fire', ['OMDB', function(OMDB){
-  var ref = new Firebase("https://luminous-torch-3475.firebaseio.com");
-  var user = JSON.parse(localStorage.getItem("userData"));
-
-  var userRef = ref.child('users').child(user.id);
-  var userMoviesRef = userRef.child('movies');
-
-  var fireUpdateUser = function(userData){
-    //object with data to send to firebase
-    var updateData = {
-      age_range: userData.age_range,
-      email: userData.email,
-      first_name: userData.first_name,
-      gender: userData.gender,
-      id: userData.id,
-      last_name: userData.last_name,
-      name: userData.name,
-      picture: userData.picture
-    };
-    //check if any data is undefined, if so, don't update firebase
-    for (var data in updateData){
-      if (updateData[data] === undefined){
-        delete updateData[data];
-      }
-    }
-    userRef.update(updateData);
-  };
-
-  var setUser = function(userData){
-    localStorage.setItem("userData", JSON.stringify(userData));
-    user = userData;
-    fireUpdateUser(userData);
-  };
-  var getUser = function(){
-    return JSON.parse(localStorage.getItem('userData'));
-  };
-
-  var updateMovie = function(movieData, type){
-    var typeRef = userMoviesRef.child(type).child(movieData.uid);
-    var updateData = {
-      uid: movieData.uid,
-      seen: movieData.seen,
-      rating: movieData.rating,
-      desire: movieData.desire
-    };
-    for (var data in updateData){
-      if (updateData[data] === undefined){
-        delete updateData[data];
-      }
-    }
-    if (movieData && (type === 'notInterested' || type === 'watchList' || type === 'rated')){
-      typeRef.update(updateData);
-    }
-  };
-
-  var getMovies = function(childName){
-    var movies = {};
-    userMoviesRef.child(childName).on('child_added', function(snapshot) {
-      movies[snapshot.key()] = snapshot;
-      OMDB.getMovie(snapshot.key()).then(function(data){
-        movies[snapshot.key()].data = data;
-      }, function(err){
-        console.log(err);
-      });
-    });
-    return movies;
-  };
-
-  return {
-    setUser: setUser,
-    getUser: getUser,
-    updateMovie: updateMovie,
-    getMovies: getMovies
-  };
-}])
-
 .factory("Auth", ['$state', '$q', '$ionicLoading', 'Fire', function($state, $q, $ionicLoading, Fire){
   var loginStatus = (function(){
     var set = function(newStatus){
@@ -127,7 +51,7 @@ angular.module('movieNight.services', ['firebase'])
     var authResponse = response.authResponse;
     getFacebookProfileInfo(authResponse)
     .then(function(profileInfo) {
-      Fire.setUser(profileInfo);
+      Fire.fireInit(profileInfo);
       $ionicLoading.hide();
       loginStatus.set(true);
       $state.go('tab.dash');
@@ -160,10 +84,11 @@ angular.module('movieNight.services', ['firebase'])
 
   //This method is executed when the user press the "Login with facebook" button
   var facebookSignIn = function() {
-    if (window.cordova.platformId == "browser") {
+    if (window.cordova.platformId === 'browser') {
       facebookConnectPlugin.browserInit(1036634036356683);
       // version (second argument) is optional. It refers to the version of API you may want to use.
     }
+
     facebookConnectPlugin.getLoginStatus(function(success){
 
       if(success.status === 'connected'){
@@ -175,7 +100,7 @@ angular.module('movieNight.services', ['firebase'])
         if(!Fire.getUser()){
           getFacebookProfileInfo(success.authResponse)
           .then(function(profileInfo) {
-            Fire.setUser(profileInfo);
+            Fire.fireInit(profileInfo);
             loginStatus.set(true);
             $state.go('tab.dash');
           }, function(fail){
@@ -233,6 +158,90 @@ angular.module('movieNight.services', ['firebase'])
     facebookSignIn: facebookSignIn,
     facebookSignOut: facebookSignOut,
     test: test
+  };
+}])
+
+.factory('Fire', ['OMDB', function(OMDB){
+  var ref;
+  var user;
+  var userRef;
+  var userMoviesRef;
+
+  var fireUpdateUser = function(userData){
+    //object with data to send to firebase
+    var updateData = {
+      age_range: userData.age_range,
+      email: userData.email,
+      first_name: userData.first_name,
+      gender: userData.gender,
+      id: userData.id,
+      last_name: userData.last_name,
+      name: userData.name,
+      picture: userData.picture
+    };
+    //check if any data is undefined, if so, don't update firebase
+    for (var data in updateData){
+      if (updateData[data] === undefined){
+        delete updateData[data];
+      }
+    }
+    userRef.update(updateData);
+  };
+
+  var setUser = function(userData){
+    localStorage.setItem('userData', JSON.stringify(userData));
+    user = userData;
+    fireUpdateUser(userData);
+  };
+  var getUser = function(){
+    return JSON.parse(localStorage.getItem('userData'));
+  };
+
+  var updateMovie = function(movieData, type){
+    var typeRef = userMoviesRef.child(type).child(movieData.uid);
+    var updateData = {
+      uid: movieData.uid,
+      seen: movieData.seen,
+      rating: movieData.rating,
+      desire: movieData.desire
+    };
+    for (var data in updateData){
+      if (updateData[data] === undefined){
+        delete updateData[data];
+      }
+    }
+    if (movieData && (type === 'notInterested' || type === 'watchList' || type === 'rated')){
+      typeRef.update(updateData);
+    }
+  };
+
+  var getMovies = function(childName){
+    var movies = {};
+    userMoviesRef.child(childName).on('child_added', function(snapshot) {
+      movies[snapshot.key()] = snapshot;
+      OMDB.getMovie(snapshot.key()).then(function(data){
+        movies[snapshot.key()].data = data;
+      }, function(err){
+        console.log(err);
+      });
+    });
+    return movies;
+  };
+
+  var fireInit = function(userData){
+    ref = new Firebase('https://luminous-torch-3475.firebaseio.com');
+    user = JSON.parse(localStorage.getItem('userData'));
+    userRef = ref.child('users').child(userData.id);
+    userMoviesRef = userRef.child('movies');
+    setUser(userData);
+  };
+
+  return {
+    setUser: setUser,
+    getUser: getUser,
+    updateMovie: updateMovie,
+    getMovies: getMovies,
+    fireInit: fireInit
   };
 }])
 
