@@ -30,11 +30,13 @@ angular.module('movieNight.services', ['firebase'])
 }])
 
 .factory('Fire', [function(){
-  var ref = new Firebase("https://luminous-torch-3475.firebaseio.com/data/users");
+  var ref = new Firebase("https://luminous-torch-3475.firebaseio.com");
   var user = JSON.parse(localStorage.getItem("userData"));
 
+  var userRef = ref.child('users').child(user.id);
+  var userMoviesRef = userRef.child('movies');
+
   var fireUpdateUser = function(userData){
-    var userRef = ref.child(user.id);
     //object with data to send to firebase
     var updateData = {
       age_range: userData.age_range,
@@ -61,28 +63,39 @@ angular.module('movieNight.services', ['firebase'])
     fireUpdateUser(userData);
   };
   var getUser = function(){
-    return JSON.parse(localStorage.getItem("userData"));
+    return JSON.parse(localStorage.getItem('userData'));
   };
 
-  var updateMovie = function(movieData){
-    var movieRef = ref.child(user.id).child("movies").child(movieData.uid);
+  var updateMovie = function(movieData, type){
+    var typeRef = userMoviesRef.child(type).child(movieData.uid);
     var updateData = {
       uid: movieData.uid,
       seen: movieData.seen,
-      rating: movieData.rating
+      rating: movieData.rating,
+      desire: movieData.desire
     };
     for (var data in updateData){
       if (updateData[data] === undefined){
         delete updateData[data];
       }
     }
-    movieRef.update(updateData);
+    if (movieData && (type === 'notInterested' || type === 'watchList' || type === 'rated')){
+      typeRef.update(updateData);
+    }
+  };
+
+  var getRatedMovies = function(){
+    var ratedMovies = {};
+    userMoviesRef.orderByChild('seen').equalTo('true').on("child_added", function(snapshot) {
+      console.log(snapshot.key());
+    });
   };
 
   return {
     setUser: setUser,
     getUser: getUser,
-    updateMovie: updateMovie
+    updateMovie: updateMovie,
+    getRatedMovies: getRatedMovies
   };
 }])
 
@@ -146,6 +159,7 @@ angular.module('movieNight.services', ['firebase'])
       // version (second argument) is optional. It refers to the version of API you may want to use.
     }
     facebookConnectPlugin.getLoginStatus(function(success){
+
       if(success.status === 'connected'){
         // The user is logged in and has authenticated your app, and response.authResponse supplies
         // the user's ID, a valid access token, a signed request, and the time the access token

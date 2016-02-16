@@ -39,6 +39,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 .controller('ListCtrl',['$scope', 'TDCardDelegate', 'listService', 'Fire', 'OMDB',
  function($scope, TDCardDelegate, listService, Fire, OMDB) {
   //holds cards and info about each card
+
   $scope.cards = [];
 
   //gets info for and adds first 10 cards to dom
@@ -90,22 +91,25 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   $scope.cardSwipedLeft = function(index) {
     Fire.updateMovie({
       uid: $scope.cards[index].uid,
-      seen: false
-    });
+      seen: false,
+      desire: false
+    }, 'notInterested');
   };
   $scope.cardSwipedRight = function(index) {
     Fire.updateMovie({
       uid: $scope.cards[index].uid,
-      seen: true
-    });
+      seen: false,
+      desire: true
+    }, 'watchList');
   };
 
   //saves rating to firebase and removes top card
   $scope.rate = function(rating){
     Fire.updateMovie({
       uid: $scope.cards[$scope.cards.length - 1].uid,
+      seen: true,
       rating: rating
-    });
+    }, 'rated');
     $scope.cardDestroyed($scope.cards.length - 1);
   };
 
@@ -141,6 +145,8 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   OMDB.getMovie('tt0944947').then(function(data){
     console.log(data);
   });
+
+  $scope.getRatedMovies = Fire.getRatedMovies();
 
 }])
 
