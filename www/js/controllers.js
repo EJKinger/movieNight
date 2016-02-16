@@ -36,8 +36,15 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   $scope.lists = Lists.all();
 }])
 
-.controller('ListCtrl',['$scope', 'TDCardDelegate', 'listService', 'Fire', 'OMDB',
- function($scope, TDCardDelegate, listService, Fire, OMDB) {
+.controller('ListCtrl',['$scope', 'TDCardDelegate', 'List', 'Fire', 'OMDB', '$ionicHistory',
+ function($scope, TDCardDelegate, List, Fire, OMDB, $ionicHistory) {
+
+  //$scope.$on('$ionicView.enter', function(e) {
+    if (List.index >= List.currentList.length - 1){
+      List.index = 0;
+    }
+  //});
+
   //holds cards and info about each card
 
   $scope.cards = [];
@@ -46,12 +53,12 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   var firstTen = function(i, n){
     var called = {0: true};
     if (n - i === 10){
-      $scope.addCard(listService.currentList[i], firstTen(i + 1, n));
+      $scope.addCard(List.currentList[i], firstTen(i + 1, n));
     } else {
       $scope.$on('nextImage', function () {
         if (i < n && !called[i]){
           called[i] = true;
-          $scope.addCard(listService.currentList[i], firstTen(i + 1, n));
+          $scope.addCard(List.currentList[i], firstTen(i + 1, n));
         }
       });
     }
@@ -64,28 +71,34 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
   //removes card
   $scope.cardDestroyed = function(index) {
+    if ($scope.cards.length === 1){
+      $scope.cards.splice(index, 1);
+      $ionicHistory.goBack();
+    }
     $scope.cards.splice(index, 1);
     $scope.addCard();
   };
 
   //adds card to back
   $scope.addCard = function(newId, cb) {
-    newId = newId || listService.currentList[listService.index++];
-    var newCard = {
-      uid: newId,
-      image: "http://img.omdbapi.com/?i=" + newId + "&apikey=" + OMDB_API + "&h=318",
-    };
+    newId = newId || List.currentList[List.index++];
+    if (newId){
+      var newCard = {
+        uid: newId,
+        image: "http://img.omdbapi.com/?i=" + newId + "&apikey=" + OMDB_API + "&h=318",
+      };
 
-    OMDB.getMovie(newId).then(function(res){
-      newCard.data = res;
-      newCard.data.YearD = '(' + newCard.data.Year + ')';
-      $scope.cards.unshift(newCard);
-      if (cb){
-        cb();
-      }
-    }, function(err){
-      console.log(err);
-    });
+      OMDB.getMovie(newId).then(function(res){
+        newCard.data = res;
+        newCard.data.YearD = '(' + newCard.data.Year + ')';
+        $scope.cards.unshift(newCard);
+        if (cb){
+          cb();
+        }
+      }, function(err){
+        console.log(err);
+      });
+    }
   };
 
   $scope.cardSwipedLeft = function(index) {
@@ -114,7 +127,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 
   (function init(){
-    firstTen(listService.index, listService.index += 10);
+    firstTen(List.index, List.index += 10);
   }());
 //MOVIE DATA res.data = {}
   //data: Object

@@ -258,7 +258,7 @@ angular.module('movieNight.services', ['firebase'])
 
 }])
 
-.factory('listService', [function(){
+.factory('List', [function(){
   //when the list is selected in the list controller, the currentList will be updated
   //when movieController is loaded, it will load from the selected list.
   var currentList = top1000;
