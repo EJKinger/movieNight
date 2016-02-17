@@ -29,7 +29,15 @@ angular.module('movieNight.services', ['firebase'])
   };
 }])
 
-.factory("Auth", ['$state', '$q', '$ionicLoading', 'Fire', function($state, $q, $ionicLoading, Fire){
+.factory("Auth", ['$state', '$q', '$ionicLoading', function($state, $q, $ionicLoading){
+  var setUser = function(userData){
+    localStorage.setItem('userData', JSON.stringify(userData));
+  };
+
+  var checkUser = function(){
+    return !!localStorage.getItem('userData');
+  };
+
   var loginStatus = (function(){
     var set = function(newStatus){
       localStorage.setItem("loginStatus", newStatus);
@@ -51,7 +59,7 @@ angular.module('movieNight.services', ['firebase'])
     var authResponse = response.authResponse;
     getFacebookProfileInfo(authResponse)
     .then(function(profileInfo) {
-      Fire.fireInit(profileInfo);
+      setUser(profileInfo);
       $ionicLoading.hide();
       loginStatus.set(true);
       $state.go('tab.dash');
@@ -97,10 +105,10 @@ angular.module('movieNight.services', ['firebase'])
         // and signed request each expire
         //console.log('getLoginStatus', success.status);
 
-        if(!Fire.getUser()){
+        if(!checkUser()){
           getFacebookProfileInfo(success.authResponse)
           .then(function(profileInfo) {
-            Fire.fireInit(profileInfo);
+            setUser(profileInfo);
             loginStatus.set(true);
             $state.go('tab.dash');
           }, function(fail){
@@ -131,6 +139,7 @@ angular.module('movieNight.services', ['firebase'])
   };
 
   var facebookSignOut = function(){
+    $state.go('landing');
     $ionicLoading.show({
       template: 'Logging out...'
     });
@@ -139,18 +148,16 @@ angular.module('movieNight.services', ['firebase'])
     facebookConnectPlugin.logout(function(){
       $ionicLoading.hide();
       loginStatus.set(false);
-      $state.go('landing');
     },
     function(fail){
       console.dir(fail);
       $ionicLoading.hide();
       alert('logout failed', fail);
-      $state.go('landing');
     });
   };
 
   var test = function(){
-    console.log(Fire.getUser());
+    //console.log(Fire.getUser());
   };
 
   return {
@@ -161,7 +168,7 @@ angular.module('movieNight.services', ['firebase'])
   };
 }])
 
-.factory('Fire', ['OMDB', function(OMDB){
+.factory('Fire', ['OMDB', 'Auth', function(OMDB, Auth){
   var ref;
   var user;
   var userRef;
@@ -188,13 +195,11 @@ angular.module('movieNight.services', ['firebase'])
     userRef.update(updateData);
   };
 
-  var setUser = function(userData){
-    localStorage.setItem('userData', JSON.stringify(userData));
-    user = userData;
-    fireUpdateUser(userData);
-  };
   var getUser = function(){
-    return JSON.parse(localStorage.getItem('userData'));
+    var userData = JSON.parse(localStorage.getItem('userData'));
+    if (userData){
+      return userData;
+    } else $state.go('landing');
   };
 
   var updateMovie = function(movieData, type){
@@ -228,20 +233,17 @@ angular.module('movieNight.services', ['firebase'])
     return movies;
   };
 
-  var fireInit = function(userData){
+  (function init (){
     ref = new Firebase('https://luminous-torch-3475.firebaseio.com');
-    user = JSON.parse(localStorage.getItem('userData'));
-    userRef = ref.child('users').child(userData.id);
+    userRef = ref.child('users').child(getUser().id);
+    fireUpdateUser(getUser());
     userMoviesRef = userRef.child('movies');
-    setUser(userData);
-  };
+  })();
 
   return {
-    setUser: setUser,
     getUser: getUser,
     updateMovie: updateMovie,
-    getMovies: getMovies,
-    fireInit: fireInit
+    getMovies: getMovies
   };
 }])
 
