@@ -221,11 +221,13 @@ angular.module('movieNight.services', ['firebase'])
   };
 
   var getMovies = function(childName){
-    var movies = {};
+    var movies = [];
     userMoviesRef.child(childName).on('child_added', function(snapshot) {
-      movies[snapshot.key()] = snapshot;
+      var movie = {};
+      angular.extend(movie, snapshot);
       OMDB.getMovie(snapshot.key()).then(function(data){
-        movies[snapshot.key()].data = data;
+        movie.data = data;
+        movies.push(movie);
       }, function(err){
         console.log(err);
       });

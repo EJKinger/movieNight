@@ -159,15 +159,18 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 }])
 
 .controller('MyListCtrl', ['$scope', 'Fire', 'OMDB', 'List', function($scope, Fire, OMDB, List){
+  $scope.searchText = "";
   $scope.movies = Fire.getMovies(List.myCurrentList.child);
   $scope.pageTitle = List.myCurrentList.title;
-  console.log($scope.movies);
-  // OMDB.getMovie('tt0944947').then(function(data){
-  //   console.log(data);
-  // });
+
+  $scope.clear = function(){
+    console.log($scope.movies);
+    // $scope.search = "";
+    // $scope.$apply();
+  };
 
   $scope.getMovies = function(){
-    console.log($scope.ratedMovies);
+    console.log($scope.movies);
   };
 
 }])
