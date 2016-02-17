@@ -84,19 +84,32 @@ td-card img {
   font-weight: normal;
   font-style: normal;
   display: inline-block;
+  -moz-transition: all 1s ease;
+  -webkit-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 1s ease;
 }
 .rating span.star:hover {
   cursor: pointer;
 }
+
 .rating span.star:before {
-  content: "\f006";
-  padding-right: 5px;
-  color: #777777;
-}
-.rating span.star:hover:before,
-.rating span.star:hover ~ span.star:before {
   content: "\f005";
+  padding-right: 5px;
+  color: #f1f1f4;
+  -moz-transition: all 1s ease;
+  -webkit-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 1s ease;
+}
+.rating span.star:active:before,
+.rating span.star:active ~ span.star:before {
+  /*content: "\f005";*/
   color: #e3cf7a;
+  -moz-transition: all 0s ease;
+  -webkit-transition: all 0s ease;
+  -o-transition: all 0s ease;
+  transition: all 0s ease;
 }
 
 .thumbnail {

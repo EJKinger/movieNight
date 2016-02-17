@@ -1,29 +1,24 @@
 <ion-view view-title="{{pageTitle}}">
   <ion-content class="padding">
-    <!-- <button ng-click="getRatedMovies()">TEST</button> -->
-    <!-- <div class="list">
-      <label class="item item-input">
-        <input type="text" placeholder="Search">
-      </label>
-      <button class="button button-clear">
-        Cancel
-      </button>
-    </div> -->
-
-    <div class="bar bar-header item-input-inset">
-      <label class="item-input-wrapper">
-        <i class="icon ion-ios-search placeholder-icon"></i>
-        <input type="text" ng-model="searchText" type="search" placeholder="Search">
-      </label>
-      <button ng-click="clear()" class="button button-clear">
-        Cancel
-      </button>
-    </div>
-
     <ion-list>
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+                  <i class="icon ion-ios-search placeholder-icon"></i>
+        <input type="text" ng-model="searchText" type="search" placeholder="Search">
+        </label>
+        <button ng-click="searchText = ''" class="button button-clear">
+          Cancel
+        </button>
+      </div>
       <a ng-repeat="movie in movies | filter: {data: {Title: searchText}}" class="item item-thumbnail-left" href="#">
         <img class="thumbnail" ng-src="{{movie.data.PosterO + '&h=80'}}">
-        <h3 data-ng-bind="movie.data.Title"></h3>
+        <h2 data-ng-bind="movie.data.Title"></h2>
+          <div class="rating-container item-right">
+            <span class="rating">
+              <span class="star" ng-click="rate(5)"></span><span class="star" ng-click="rate(4)"></span><span class="star" ng-click="rate(3)"></span><span class="star" ng-click="rate(2)"></span><span class="star" ng-click="rate(1)"></span>
+            </span>
+          </div>
+
         <!-- <p>Nine Inch Nails</p> -->
       </a>
       
