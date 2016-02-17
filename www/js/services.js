@@ -254,6 +254,7 @@ angular.module('movieNight.services', ['firebase'])
         method: 'get',
         url: "http://www.omdbapi.com/?i=" + id + '&plot=full&r=json'
       }).then(function(res){  
+        res.data.PosterO = "http://img.omdbapi.com/?i=" + id + "&apikey=" + OMDB_API;
         resolve(res.data);
       }, function(err){
         console.log(err);
@@ -262,8 +263,13 @@ angular.module('movieNight.services', ['firebase'])
     });
   };
 
+  var getMovieImage = function(id){
+
+  };
+
   return {
-    getMovie: getMovie
+    getMovie: getMovie,
+    getMovieImage: getMovieImage
   };
 
 }])

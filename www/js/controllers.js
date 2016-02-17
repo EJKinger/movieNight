@@ -161,6 +161,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 .controller('MyListCtrl', ['$scope', 'Fire', 'OMDB', 'List', function($scope, Fire, OMDB, List){
   $scope.movies = Fire.getMovies(List.myCurrentList.child);
   $scope.pageTitle = List.myCurrentList.title;
+  console.log($scope.movies);
   // OMDB.getMovie('tt0944947').then(function(data){
   //   console.log(data);
   // });

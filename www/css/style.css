@@ -99,6 +99,11 @@ td-card img {
   color: #e3cf7a;
 }
 
+.thumbnail {
+  max-width: 54px !important;
+  max-height: 100%;
+}
+
 
 
 

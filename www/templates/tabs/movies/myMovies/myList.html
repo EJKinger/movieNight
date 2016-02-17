@@ -1,11 +1,33 @@
 <ion-view view-title="{{pageTitle}}">
   <ion-content class="padding">
     <!-- <button ng-click="getRatedMovies()">TEST</button> -->
+    <!-- <div class="list">
+      <label class="item item-input">
+        <input type="text" placeholder="Search">
+      </label>
+      <button class="button button-clear">
+        Cancel
+      </button>
+    </div> -->
+
+    <div class="bar bar-header item-input-inset">
+      <label class="item-input-wrapper">
+        <i class="icon ion-ios-search placeholder-icon"></i>
+        <input type="search" placeholder="Search">
+      </label>
+      <button class="button button-clear">
+        Cancel
+      </button>
+    </div>
+
     <ion-list>
-      <ion-item ng-repeat="movie in movies">
+      <a ng-repeat="movie in movies" class="item item-thumbnail-left" href="#">
+        <img class="thumbnail" ng-src="{{movie.data.PosterO + '&h=80'}}">
         <h3 data-ng-bind="movie.data.Title"></h3>
-        <!-- The data about the users rating is decoupled from the data about the movie -->
-      </ion-item>
+        <!-- <p>Nine Inch Nails</p> -->
+      </a>
+      
+      <!-- The data about the users rating is decoupled from the data about the movie -->
     </ion-list>
   </ion-content>
 </ion-view>
