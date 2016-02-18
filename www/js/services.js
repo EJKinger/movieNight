@@ -294,4 +294,23 @@ angular.module('movieNight.services', ['firebase'])
     myLists: myLists,
     myCurrentList: myCurrentList
   };
+}])
+
+.factory('Movie', [function(){
+  var current = (function(){
+    var currentMovieData;
+    return {
+      get: function(){
+        return currentMovieData;
+      },
+      set: function(movieData){
+        currentMovieData = movieData;
+      }
+    };
+  })();
+
+  return {
+    getCurrent: current.get,
+    setCurrent: current.set
+  };
 }]);

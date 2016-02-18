@@ -83,6 +83,17 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     }
   })
 
+  .state('tab.movie', {
+    url: '/movies/:id',
+    views: {
+      'tab-movies': {
+        templateUrl: 'templates/tabs/movies/movie.html',
+        controller: 'MovieCtrl'
+        
+      }
+    }
+  })
+
   .state('tab.dash', {
     url: '/dash',
     views: {

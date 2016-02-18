@@ -32,6 +32,10 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   });
 }])
 
+.controller('MovieCtrl', ['$scope', 'Movie', function($scope, Movie){
+  $scope.movie = Movie.getCurrent();
+}])
+
 .controller('ListsCtrl', ['$scope', 'Lists', function($scope, Lists){
   $scope.lists = Lists.all();
 }])
@@ -158,10 +162,38 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 }])
 
-.controller('MyListCtrl', ['$scope', 'Fire', 'OMDB', 'List', function($scope, Fire, OMDB, List){
+.controller('MyListCtrl', ['$scope', '$location', 'Fire', 'OMDB', 'List', 'Movie', function($scope, $location, Fire, OMDB, List, Movie){
   $scope.searchText = '';
   $scope.movies = Fire.getMovies(List.myCurrentList.child);
   $scope.pageTitle = List.myCurrentList.title;
+
+  $scope.toMoviePage = function(index){
+    Movie.setCurrent($scope.movies[index]);
+    $location.path('/tab/movies/{{movie.data.imdbID}}');
+  };
+
+  // movie.data: Object
+  //   Actors: "Martin Balsam, John Fiedler, Lee J. Cobb, E.G. Marshall"
+  //   Awards: "Nominated for 3 Oscars. Another 16 wins & 8 nominations."
+  //   Country: "USA"
+  //   Director: "Sidney Lumet"
+  //   Genre: "Crime, Drama"
+  //   Language: "English"
+  //   Metascore: "N/A"
+  //   Plot: "A dissenting juror in a murder trial slowly manages to convince the others that the case is not as obviously clear as it seemed in court."
+  //   Poster: "http://ia.media-imdb.com/images/M/MV5BODQwOTc5MDM2N15BMl5BanBnXkFtZTcwODQxNTEzNA@@._V1_SX300.jpg"
+  //   PosterO: "http://img.omdbapi.com/?i=tt0050083&apikey=93ebc6ed"
+  //   Rated: "NOT RATED"
+  //   Released: "01 Apr 1957"
+  //   Response: "True"
+  //   Runtime: "96 min"
+  //   Title: "12 Angry Men"
+  //   Type: "movie"
+  //   Writer: "Reginald Rose (story)"
+  //   Year: "1957"
+  //   imdbID: "tt0050083"
+  //   imdbRating: "8.9"
+  //   imdbVotes: "421,352"
 
 }])
 
