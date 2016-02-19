@@ -33,6 +33,16 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     }]
   })
 
+  .state('tab.friends', {
+    url:'/friends',
+    views: {
+      'tab-friends': {
+        templateUrl: 'templates/tabs/friends.html',
+        controller: 'FriendsCtrl'
+      }
+    }
+  })
+
   .state('tab.movies', {
     url: '/movies',
     views: {

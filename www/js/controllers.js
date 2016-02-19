@@ -1,6 +1,6 @@
 angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
-.controller('AccountCtrl', ["$scope", "Auth", function($scope, Auth) {
+.controller('AccountCtrl', ['$scope', 'Auth', function($scope, Auth) {
   // This is the success callback from the login method
   
   $scope.facebookSignIn = function() {
@@ -17,6 +17,10 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 }])
 
 .controller('DashCtrl', function($scope) {})
+
+.controller('FriendsCtrl', ['$scope', function($scope){
+  $scope.searchText = '';
+}])
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Lists) {
   $scope.list = Lists.get($stateParams.listId);
@@ -131,28 +135,28 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   (function init(){
     firstTen(List.index, List.index += 10);
   }());
-//MOVIE DATA res.data = {}
-  //data: Object
-    // Actors: "Tim Robbins, Morgan Freeman, Bob Gunton, William Sadler"
-    // Awards: "Nominated for 7 Oscars. Another 14 wins & 20 nominations."
-    // Country: "USA"
-    // Director: "Frank Darabont"
-    // Genre: "Crime, Drama"
-    // Language: "English"
-    // Metascore: "80"
-    // Plot: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency."
-    // Poster: "http://ia.media-imdb.com/images/M/MV5BODU4MjU4NjIwNl5BMl5BanBnXkFtZTgwMDU2MjEyMDE@._V1_SX300.jpg"
-    // Rated: "R"
-    // Released: "14 Oct 1994"
-    // Response: "True"
-    // Runtime: "142 min"
-    // Title: "The Shawshank Redemption"
-    // Type: "movie"
-    // Writer: "Stephen King (short story "Rita Hayworth and Shawshank Redemption"), Frank Darabont (screenplay)"
-    // Year: "1994"
-    // imdbID: "tt0111161"
-    // imdbRating: "9.3"
-    // imdbVotes: "1,590,699"
+  //MOVIE DATA res.data = {}
+    //data: Object
+      // Actors: "Tim Robbins, Morgan Freeman, Bob Gunton, William Sadler"
+      // Awards: "Nominated for 7 Oscars. Another 14 wins & 20 nominations."
+      // Country: "USA"
+      // Director: "Frank Darabont"
+      // Genre: "Crime, Drama"
+      // Language: "English"
+      // Metascore: "80"
+      // Plot: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency."
+      // Poster: "http://ia.media-imdb.com/images/M/MV5BODU4MjU4NjIwNl5BMl5BanBnXkFtZTgwMDU2MjEyMDE@._V1_SX300.jpg"
+      // Rated: "R"
+      // Released: "14 Oct 1994"
+      // Response: "True"
+      // Runtime: "142 min"
+      // Title: "The Shawshank Redemption"
+      // Type: "movie"
+      // Writer: "Stephen King (short story "Rita Hayworth and Shawshank Redemption"), Frank Darabont (screenplay)"
+      // Year: "1994"
+      // imdbID: "tt0111161"
+      // imdbRating: "9.3"
+      // imdbVotes: "1,590,699"
 }])
 
 .controller('MyMoviesCtrl', ['$scope', 'List', function($scope, List){
