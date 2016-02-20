@@ -10,6 +10,10 @@
           Cancel
         </button>
       </div>
+      <a ng-repeat="friend in friends | filter: searchText" class="item item-thumbnail-left" ng-click="toFriendPage($index)">
+        <img class="thumbnail" ng-src="">
+        <h2 data-ng-bind=""></h2>
+      </a>
     </ion-list>
   </ion-content>
 </ion-view>

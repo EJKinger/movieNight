@@ -20,6 +20,9 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
 .controller('FriendsCtrl', ['$scope', function($scope){
   $scope.searchText = '';
+  $scope.toFriendPage = function(index){
+
+  };
 }])
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Lists) {
