@@ -65,7 +65,7 @@ angular.module('movieNight.services', ['firebase'])
       $state.go('tab.dash');
     }, function(fail){
       // Fail get profile info
-      console.log('profile info fail', fail);
+      alert('Login Failed');
     });
   };
 
@@ -156,15 +156,10 @@ angular.module('movieNight.services', ['firebase'])
     });
   };
 
-  var test = function(){
-    //console.log(Fire.getUser());
-  };
-
   return {
     getLoginStatus: loginStatus.get,
     facebookSignIn: facebookSignIn,
-    facebookSignOut: facebookSignOut,
-    test: test
+    facebookSignOut: facebookSignOut
   };
 }])
 

@@ -18,11 +18,23 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
 .controller('DashCtrl', function($scope) {})
 
-.controller('FriendsCtrl', ['$scope', function($scope){
+.controller('FriendsCtrl', ['$scope', 'Fire', function($scope, Fire){
   $scope.searchText = '';
+  
   $scope.toFriendPage = function(index){
 
   };
+
+  (function(){
+    facebookConnectPlugin.api(Fire.getUser().id + '/friends', null,
+    function (result) {
+      $scope.friends = result.data;
+      $scope.$apply();
+    },
+    function (error) {
+      console.log("Failed: " + error);
+    });
+  })();
 }])
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Lists) {
