@@ -16,25 +16,26 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 }])
 
-.controller('DashCtrl', function($scope) {})
+.controller('DashCtrl', ['$scope', 'Fire', function($scope, Fire) {}])
 
 .controller('FriendsCtrl', ['$scope', 'Fire', function($scope, Fire){
   $scope.searchText = '';
-  
+  $scope.friends = Fire.getUser().friends;
   $scope.toFriendPage = function(index){
 
   };
 
-  (function(){
-    facebookConnectPlugin.api(Fire.getUser().id + '/friends', null,
-    function (result) {
-      $scope.friends = result.data;
-      $scope.$apply();
-    },
-    function (error) {
-      console.log("Failed: " + error);
-    });
-  })();
+  // (function(){
+  //   facebookConnectPlugin.api(Fire.getUser().id + '/friends', null,
+  //   function (result) {
+  //     console.log(result.data);
+  //     $scope.friends = result.data;
+  //     $scope.$apply();
+  //   },
+  //   function (error) {
+  //     console.log("Failed: " + error);
+  //   });
+  // })();
 }])
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Lists) {

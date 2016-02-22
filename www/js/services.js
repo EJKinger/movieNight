@@ -159,7 +159,8 @@ angular.module('movieNight.services', ['firebase'])
   return {
     getLoginStatus: loginStatus.get,
     facebookSignIn: facebookSignIn,
-    facebookSignOut: facebookSignOut
+    facebookSignOut: facebookSignOut,
+    setUser: setUser
   };
 }])
 
@@ -179,7 +180,8 @@ angular.module('movieNight.services', ['firebase'])
       id: userData.id,
       last_name: userData.last_name,
       name: userData.name,
-      picture: userData.picture
+      picture: userData.picture,
+      friends: userData.friends
     };
     //check if any data is undefined, if so, don't update firebase
     for (var data in updateData){
@@ -230,10 +232,25 @@ angular.module('movieNight.services', ['firebase'])
     return movies;
   };
 
+  var getFriends = function(){
+    facebookConnectPlugin.api(getUser().id + '/friends', null,
+    function (result) {
+      var userData = getUser();
+      userData.friends = result.data;
+      Auth.setUser(userData);
+      fireUpdateUser(userData);
+    },
+    function (error) {
+      console.log("Failed: " + error);
+    });
+  };
+
   (function init (){
+    console.log('init!!!!!!!!!!!!!!');
     ref = new Firebase('https://luminous-torch-3475.firebaseio.com');
     userRef = ref.child('users').child(getUser().id);
     fireUpdateUser(getUser());
+    getFriends();
     userMoviesRef = userRef.child('movies');
   })();
 
@@ -268,7 +285,6 @@ angular.module('movieNight.services', ['firebase'])
     getMovie: getMovie,
     getMovieImage: getMovieImage
   };
-
 }])
 
 .factory('List', [function(){
