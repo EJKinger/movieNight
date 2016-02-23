@@ -164,7 +164,7 @@ angular.module('movieNight.services', ['firebase'])
   };
 }])
 
-.factory('Fire', ['OMDB', 'Auth', function(OMDB, Auth){
+.factory('Fire', ['OMDB', 'Auth', '$q', function(OMDB, Auth, $q){
   var ref;
   var user;
   var userRef;
@@ -232,16 +232,30 @@ angular.module('movieNight.services', ['firebase'])
     return movies;
   };
 
+  var getProfileImageURL = function(id){
+    return $q(function(resolve, reject){
+      ref.child('users').child(id).child('picture').child('url').on('child_added', function(snapshot) {
+        if (snapshot.val()){
+          resolve(snapshot.val());
+        } else reject();
+      });
+    });
+  };
+
   var getFriends = function(){
     facebookConnectPlugin.api(getUser().id + '/friends', null,
     function (result) {
       var userData = getUser();
       userData.friends = result.data;
-      Auth.setUser(userData);
-      fireUpdateUser(userData);
-    },
-    function (error) {
-      console.log("Failed: " + error);
+      for (var friend in userData.friends){
+        getProfileImageURL(userData.friends[friend].id).then(function(url){
+          console.log(userData.friends[friend]);
+          console.log(url);
+          userData.friends[friend].profileImageURL = url;
+        }, function(err){
+          console.log('Error in getFriends ', err);
+        });
+      }
     });
   };
 

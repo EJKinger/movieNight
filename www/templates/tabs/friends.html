@@ -12,7 +12,7 @@
       </div>
 
       <a ng-repeat="friend in friends | filter: {name: searchText}" class="item item-avatar" ng-click="toFriendPage($index)">
-        <img ng-src="">
+        <img ng-src="friend.profileImageURL">
         <h2 data-ng-bind="friend.name"></h2>
       </a>
 
