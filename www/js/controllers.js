@@ -21,7 +21,6 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 .controller('FriendsCtrl', ['$scope', 'Fire', function($scope, Fire){
   $scope.searchText = '';
   $scope.friends = Fire.getUser().friends;
-  console.log($scope.friends);
   $scope.toFriendPage = function(index){
 
   };

@@ -29,8 +29,14 @@ angular.module('movieNight.services', ['firebase'])
   };
 }])
 
-.factory("Auth", ['$state', '$q', '$ionicLoading', function($state, $q, $ionicLoading){
-  var setUser = function(userData){
+.factory('Auth', ['$state', '$q', '$ionicLoading','$window', function($state, $q, $ionicLoading, $window){
+
+  var updateUser = function(userData){
+    for (var item in userData){
+      if (item === undefined){
+        delete userData[item];
+      }
+    }
     localStorage.setItem('userData', JSON.stringify(userData));
   };
 
@@ -40,10 +46,10 @@ angular.module('movieNight.services', ['firebase'])
 
   var loginStatus = (function(){
     var set = function(newStatus){
-      localStorage.setItem("loginStatus", newStatus);
+      localStorage.setItem('loginStatus', newStatus);
     };
     var get = function(){
-      return localStorage.getItem("loginStatus");
+      return localStorage.getItem('loginStatus');
     };
     return {
       set: set,
@@ -53,13 +59,13 @@ angular.module('movieNight.services', ['firebase'])
 
   var fbLoginSuccess = function(response) {
     if (!response.authResponse){
-      fbLoginError("Cannot find the authResponse");
+      fbLoginError('Cannot find the authResponse');
       return;
     }
     var authResponse = response.authResponse;
     getFacebookProfileInfo(authResponse)
     .then(function(profileInfo) {
-      setUser(profileInfo);
+      updateUser(profileInfo);
       $ionicLoading.hide();
       loginStatus.set(true);
       $state.go('tab.dash');
@@ -108,7 +114,7 @@ angular.module('movieNight.services', ['firebase'])
         if(!checkUser()){
           getFacebookProfileInfo(success.authResponse)
           .then(function(profileInfo) {
-            setUser(profileInfo);
+            updateUser(profileInfo);
             loginStatus.set(true);
             $state.go('tab.dash');
           }, function(fail){
@@ -148,11 +154,13 @@ angular.module('movieNight.services', ['firebase'])
     facebookConnectPlugin.logout(function(){
       $ionicLoading.hide();
       loginStatus.set(false);
+      $window.location.reload(true)
     },
     function(fail){
       console.dir(fail);
       $ionicLoading.hide();
       alert('logout failed', fail);
+      $window.location.reload(true)
     });
   };
 
@@ -160,7 +168,7 @@ angular.module('movieNight.services', ['firebase'])
     getLoginStatus: loginStatus.get,
     facebookSignIn: facebookSignIn,
     facebookSignOut: facebookSignOut,
-    setUser: setUser
+    updateUser: updateUser
   };
 }])
 
@@ -180,7 +188,7 @@ angular.module('movieNight.services', ['firebase'])
       id: userData.id,
       last_name: userData.last_name,
       name: userData.name,
-      picture: userData.picture,
+      picture: userData.picture.data,
       friends: userData.friends
     };
     //check if any data is undefined, if so, don't update firebase
@@ -234,7 +242,7 @@ angular.module('movieNight.services', ['firebase'])
 
   var getProfileImageURL = function(id){
     return $q(function(resolve, reject){
-      ref.child('users').child(id).child('picture').child('url').on('child_added', function(snapshot) {
+      ref.child('users').child(id).child('picture').child('url').on('value', function(snapshot) {
         if (snapshot.val()){
           resolve(snapshot.val());
         } else reject();
@@ -248,10 +256,10 @@ angular.module('movieNight.services', ['firebase'])
       var userData = getUser();
       userData.friends = result.data;
       for (var friend in userData.friends){
+        console.log(userData.friends[friend].id);
         getProfileImageURL(userData.friends[friend].id).then(function(url){
-          console.log(userData.friends[friend]);
-          console.log(url);
           userData.friends[friend].profileImageURL = url;
+          Auth.updateUser(userData);
         }, function(err){
           console.log('Error in getFriends ', err);
         });
@@ -260,7 +268,6 @@ angular.module('movieNight.services', ['firebase'])
   };
 
   (function init (){
-    console.log('init!!!!!!!!!!!!!!');
     ref = new Firebase('https://luminous-torch-3475.firebaseio.com');
     userRef = ref.child('users').child(getUser().id);
     fireUpdateUser(getUser());
@@ -281,7 +288,7 @@ angular.module('movieNight.services', ['firebase'])
       $http({
         method: 'get',
         url: "http://www.omdbapi.com/?i=" + id + '&plot=full&r=json'
-      }).then(function(res){  
+      }).then(function(res){
         res.data.PosterO = "http://img.omdbapi.com/?i=" + id + "&apikey=" + OMDB_API;
         resolve(res.data);
       }, function(err){
