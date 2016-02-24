@@ -256,7 +256,6 @@ angular.module('movieNight.services', ['firebase'])
       var userData = getUser();
       userData.friends = result.data;
       for (var friend in userData.friends){
-        console.log(userData.friends[friend].id);
         getProfileImageURL(userData.friends[friend].id).then(function(url){
           userData.friends[friend].profileImageURL = url;
           Auth.updateUser(userData);
@@ -345,4 +344,24 @@ angular.module('movieNight.services', ['firebase'])
     getCurrent: current.get,
     setCurrent: current.set
   };
+}])
+
+.factory('Friend', [function(){
+  var current = (function(){
+    var currentFriend;
+    return {
+      get: function(){
+        return currentFriend;
+      },
+      set: function(friend){
+        currentFriend = friend;
+      }
+    };
+  })();
+
+  return {
+    getCurrent: current.get,
+    setCurrent: current.set
+  };
+
 }]);

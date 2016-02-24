@@ -18,11 +18,12 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
 .controller('DashCtrl', ['$scope', 'Fire', function($scope, Fire) {}])
 
-.controller('FriendsCtrl', ['$scope', 'Fire', function($scope, Fire){
+.controller('FriendsCtrl', ['$scope', 'Fire', '$location', 'Friend', function($scope, Fire, $location, Friend){
   $scope.searchText = '';
   $scope.friends = Fire.getUser().friends;
   $scope.toFriendPage = function(index){
-
+    Friend.setCurrent($scope.friends[index]);
+    $location.path('/tab/friends/' + $scope.friends[index].id);
   };
 
   // (function(){
@@ -36,6 +37,10 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   //     console.log("Failed: " + error);
   //   });
   // })();
+}])
+
+.controller('FriendCtrl', ['$scope', 'Friend', function($scope, Friend){
+  $scope.currentFriend = Friend.getCurrent();
 }])
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Lists) {
@@ -189,7 +194,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
 
   $scope.toMoviePage = function(index){
     Movie.setCurrent($scope.movies[index]);
-    $location.path('/tab/movies/{{movie.data.imdbID}}');
+    $location.path('/tab/movies/' + $scope.movies[index].data.imdbID);
   };
 
   // movie.data: Object

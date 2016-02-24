@@ -33,12 +33,22 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     }]
   })
 
-  .state('tab.friends', {
+  .state ('tab.friends', {
     url:'/friends',
     views: {
       'tab-friends': {
         templateUrl: 'templates/tabs/friends.html',
         controller: 'FriendsCtrl'
+      }
+    }
+  })
+
+  .state('tab.friend', {
+    url: '/friends/:id',
+    views: {
+      'tab-friends': {
+        templateUrl: 'templates/tabs/friends/friend.html',
+        controller: 'FriendCtrl'
       }
     }
   })
@@ -99,7 +109,6 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
       'tab-movies': {
         templateUrl: 'templates/tabs/movies/movie.html',
         controller: 'MovieCtrl'
-        
       }
     }
   })
