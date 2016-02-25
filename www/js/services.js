@@ -266,6 +266,18 @@ angular.module('movieNight.services', ['firebase'])
     });
   };
 
+  var sendMessage = function(chatId, uid, name, message){
+    var chatRef = ref.child('chats').child(chatId);
+    chatRef.push({name: name, uid: uid, message: message});
+  };
+
+  var getMessages = function(chatId, callback){
+    var chatRef = ref.child('chats').child(chatId);
+    chatRef.on("child_added", function(snapshot, prevChildKey) {
+      callback(snapshot.val());
+    });
+  };
+
   (function init (){
     ref = new Firebase('https://luminous-torch-3475.firebaseio.com');
     userRef = ref.child('users').child(getUser().id);
@@ -277,7 +289,9 @@ angular.module('movieNight.services', ['firebase'])
   return {
     getUser: getUser,
     updateMovie: updateMovie,
-    getMovies: getMovies
+    getMovies: getMovies,
+    sendMessage: sendMessage,
+    getMessages: getMessages
   };
 }])
 

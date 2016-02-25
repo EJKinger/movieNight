@@ -39,8 +39,27 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   // })();
 }])
 
-.controller('FriendCtrl', ['$scope', 'Friend', function($scope, Friend){
+.controller('FriendCtrl', ['$scope', 'Friend', 'Fire', function($scope, Friend, Fire){
+  $scope.chats = [];
   $scope.currentFriend = Friend.getCurrent();
+  $scope.messageText = '';
+  var uid = Number(Fire.getUser().id);
+  var fid = Number($scope.currentFriend.id);
+  var chatId = (function(){
+    if (uid < fid){
+      return String(uid) + String(fid);
+    } else return String(fid) + String(uid);
+  })();
+
+  $scope.sendMessage = function(){
+    Fire.sendMessage(chatId, uid, Fire.getUser().first_name, $scope.messageText);
+    $scope.messageText = '';
+  };
+
+  Fire.getMessages(chatId, function(data){
+    $scope.chats.push(data);
+  });
+
 }])
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Lists) {
