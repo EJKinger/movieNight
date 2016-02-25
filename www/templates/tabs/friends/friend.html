@@ -1,16 +1,15 @@
 <ion-view view-title="Friend">
   <ion-content>
     <h1 data-ng-bind="currentFriend.name"></h1>
-    <img ng-src="{{currentFriend.profileImageURL}}">
 
     <ion-list>
       <a ng-repeat="chat in chats" class="item item-avatar">
-        <img ng-src="{{friend.profileImageURL}}">
+        <img ng-src="{{currentFriend.profileImageURL}}">
         <p data-ng-bind="chat.message"></p>
       </a>
     </ion-list>
   </ion-content>
-  
+
   <div class="bar bar-footer bar-balanced item-input-inset has-tabs">
     <label class="item-input-wrapper">
       <i class="icon ion-chatbubble placeholder-icon"></i>

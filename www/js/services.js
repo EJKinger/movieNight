@@ -290,6 +290,7 @@ angular.module('movieNight.services', ['firebase'])
     getUser: getUser,
     updateMovie: updateMovie,
     getMovies: getMovies,
+    getProfileImageURL: getProfileImageURL,
     sendMessage: sendMessage,
     getMessages: getMessages
   };

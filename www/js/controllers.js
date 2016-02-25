@@ -55,7 +55,9 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     Fire.sendMessage(chatId, uid, Fire.getUser().first_name, $scope.messageText);
     $scope.messageText = '';
   };
-
+  Fire.getProfileImageURL(fid).then(function(url){
+    $scope.currentFriend.profileImageURL = url;
+  });
   Fire.getMessages(chatId, function(data){
     $scope.chats.push(data);
   });
