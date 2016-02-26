@@ -51,6 +51,14 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     } else return String(fid) + String(uid);
   })();
 
+  $scope.getImgURL = function(index){
+    if ($scope.chats[index].uid === fid){
+      return $scope.currentFriend.profileImageURL;
+    } else if ($scope.chats[index].uid === uid) {
+      return Fire.getUser().picture.data.url;
+    }
+  };
+
   $scope.sendMessage = function(){
     Fire.sendMessage(chatId, uid, Fire.getUser().first_name, $scope.messageText);
     $scope.messageText = '';
