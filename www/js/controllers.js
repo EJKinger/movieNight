@@ -71,9 +71,9 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   Fire.getMessages(chatId, function(data){
     $scope.chats.push(data);
 
-    //scrolls to bottom
-    $location.hash('bottom');
-    $anchorScroll();
+    // //scrolls to bottom
+    // $location.hash('bottom');
+    // $anchorScroll();
   });
 
 }])

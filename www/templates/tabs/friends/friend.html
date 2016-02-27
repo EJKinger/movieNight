@@ -1,5 +1,5 @@
 <ion-view view-title="Friend">
-  <ion-content>
+  <ion-content overflow-scroll="true" scroll-glue>
     <h1 data-ng-bind="currentFriend.name"></h1>
 
     <ion-list>
@@ -8,6 +8,8 @@
         <p data-ng-bind="chat.message"></p>
       </a>
     </ion-list>
+
+    <div id="bottom"></div>
 
   </ion-content>
 
