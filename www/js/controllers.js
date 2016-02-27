@@ -72,8 +72,8 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     $scope.chats.push(data);
 
     //scrolls to bottom
-    // $location.hash('bottom');
-    // $anchorScroll();
+    $location.hash('bottom');
+    $anchorScroll();
   });
 
 }])
