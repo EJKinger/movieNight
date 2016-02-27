@@ -1,4 +1,4 @@
-angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'movieNight.services'])
+angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'movieNight.services', 'luegg.directives'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -48,7 +48,7 @@ angular.module('movieNight', ['ionic', 'firebase', 'movieNight.controllers', 'mo
     views: {
       'tab-friends': {
         templateUrl: 'templates/tabs/friends/friend.html',
-        controller: 'FriendCtrl'
+        controller: 'FriendCtrl',
       }
     }
   })

@@ -273,7 +273,7 @@ angular.module('movieNight.services', ['firebase'])
 
   var getMessages = function(chatId, callback){
     var chatRef = ref.child('chats').child(chatId);
-    chatRef.on("child_added", function(snapshot, prevChildKey) {
+    chatRef.on('child_added', function(snapshot, prevChildKey) {
       callback(snapshot.val());
     });
   };

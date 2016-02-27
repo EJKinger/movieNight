@@ -39,7 +39,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   // })();
 }])
 
-.controller('FriendCtrl', ['$scope', 'Friend', 'Fire', function($scope, Friend, Fire){
+.controller('FriendCtrl', ['$scope', 'Friend', 'Fire', '$location', '$anchorScroll', function($scope, Friend, Fire, $location, $anchorScroll){
   $scope.chats = [];
   $scope.currentFriend = Friend.getCurrent();
   $scope.messageText = '';
@@ -60,14 +60,20 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   };
 
   $scope.sendMessage = function(){
-    Fire.sendMessage(chatId, uid, Fire.getUser().first_name, $scope.messageText);
-    $scope.messageText = '';
+    if ($scope.messageText !== ''){
+      Fire.sendMessage(chatId, uid, Fire.getUser().first_name, $scope.messageText);
+      $scope.messageText = '';
+    }
   };
   Fire.getProfileImageURL(fid).then(function(url){
     $scope.currentFriend.profileImageURL = url;
   });
   Fire.getMessages(chatId, function(data){
     $scope.chats.push(data);
+
+    //scrolls to bottom
+    // $location.hash('bottom');
+    // $anchorScroll();
   });
 
 }])
