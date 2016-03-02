@@ -43,6 +43,7 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   $scope.chats = [];
   $scope.currentFriend = Friend.getCurrent();
   $scope.messageText = '';
+  var button = document.getElementById('messageInput');
   var uid = Number(Fire.getUser().id);
   var fid = Number($scope.currentFriend.id);
   var chatId = (function(){
@@ -50,6 +51,11 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
       return String(uid) + String(fid);
     } else return String(fid) + String(uid);
   })();
+
+  $scope.scrollDown = function(){
+    location.hash('bottom');
+    $anchorScroll();
+  };
 
   $scope.getImgURL = function(index){
     if ($scope.chats[index].uid === fid){
@@ -63,6 +69,11 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
     if ($scope.messageText !== ''){
       Fire.sendMessage(chatId, uid, Fire.getUser().first_name, $scope.messageText);
       $scope.messageText = '';
+      //scrolls to bottom
+      $location.hash('bottom');
+      $anchorScroll();
+      button.focus();
+      cordova.plugins.Keyboard.show();
     }
   };
   Fire.getProfileImageURL(fid).then(function(url){
@@ -70,10 +81,6 @@ angular.module('movieNight.controllers', ['ionic.contrib.ui.tinderCards'])
   });
   Fire.getMessages(chatId, function(data){
     $scope.chats.push(data);
-
-    // //scrolls to bottom
-    // $location.hash('bottom');
-    // $anchorScroll();
   });
 
 }])

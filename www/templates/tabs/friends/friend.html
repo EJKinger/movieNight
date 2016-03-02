@@ -7,17 +7,16 @@
         <img ng-src="{{getImgURL($index)}}">
         <p data-ng-bind="chat.message"></p>
       </a>
+      <div id="bottom"></div>
     </ion-list>
-
-    <div id="bottom"></div>
 
   </ion-content>
 
-  <ion-footer-bar>
+  <ion-footer-bar keyboard-attach class="bar-assertive">
     <div class="bar bar-footer bar-balanced item-input-inset">
       <label class="item-input-wrapper">
         <i class="icon ion-chatbubble placeholder-icon"></i>
-        <input ng-model="messageText" type="text" placeholder="Message text ...">
+        <input ng-focus="scrollDown()" id="messageInput" ng-model="messageText" type="text" placeholder="Message text ...">
       </label>
       <button class="button button-clear" ng-click="sendMessage()">
         Send
